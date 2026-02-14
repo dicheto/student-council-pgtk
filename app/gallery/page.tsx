@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { motion } from 'framer-motion'
-import { Lightbox } from '@/components/sections/GalleryHighlights'
 
 interface GalleryItem {
   id: string

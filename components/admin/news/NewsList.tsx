@@ -192,7 +192,7 @@ export function NewsList() {
         <NewsFormModal
           isOpen={isEditModalOpen}
           onClose={handleCloseEditModal}
-          existingNews={editingNews}
+          newsId={editingNews.id}
         />
       )}
     </>

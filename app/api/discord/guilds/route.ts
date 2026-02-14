@@ -9,7 +9,7 @@ export async function GET() {
       return NextResponse.json({ guilds: [] })
     }
 
-    const guilds = client.guilds.cache.map(guild => ({
+    const guilds = client.guilds.cache.map((guild: any) => ({
       id: guild.id,
       name: guild.name,
       icon: guild.iconURL(),

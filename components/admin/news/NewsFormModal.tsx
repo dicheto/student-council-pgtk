@@ -7,10 +7,10 @@ import { NewsForm } from './NewsForm'
 interface NewsFormModalProps {
   isOpen: boolean
   onClose: () => void
-  existingNews?: any
+  newsId?: string
 }
 
-export function NewsFormModal({ isOpen, onClose, existingNews }: NewsFormModalProps) {
+export function NewsFormModal({ isOpen, onClose, newsId }: NewsFormModalProps) {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -32,7 +32,7 @@ export function NewsFormModal({ isOpen, onClose, existingNews }: NewsFormModalPr
               <div className="relative bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
                 <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {existingNews ? 'Редактиране на Статия' : 'Създаване на Нова Статия'}
+                    {newsId ? 'Редактиране на Статия' : 'Създаване на Нова Статия'}
                   </h2>
                   <button
                     onClick={onClose}
@@ -43,7 +43,7 @@ export function NewsFormModal({ isOpen, onClose, existingNews }: NewsFormModalPr
                 </div>
                 
                 <div className="flex-1 overflow-y-auto p-6">
-                  <NewsForm onClose={onClose} existingNews={existingNews} />
+                  <NewsForm onClose={onClose} newsId={newsId} />
                 </div>
               </div>
             </div>

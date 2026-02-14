@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     // Fetch all members
     await guild.members.fetch()
 
-    const members = guild.members.cache.map(member => ({
+    const members = guild.members.cache.map((member: any) => ({
       id: member.id,
       username: member.user.username,
       discriminator: member.user.discriminator,
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       bot: member.user.bot,
       displayName: member.displayName,
       nickname: member.nickname,
-      roles: member.roles.cache.map(role => ({
+      roles: member.roles.cache.map((role: any) => ({
         id: role.id,
         name: role.name,
         color: role.color,

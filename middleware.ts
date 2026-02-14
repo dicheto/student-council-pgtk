@@ -52,14 +52,14 @@ export async function middleware(request: NextRequest) {
           getAll() {
             return request.cookies.getAll()
           },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value }) =>
+          setAll(cookiesToSet: Array<{name: string; value: string}>) {
+            cookiesToSet.forEach(({ name, value }: {name: string; value: string}) =>
               request.cookies.set(name, value)
             )
             response = NextResponse.next({
               request: { headers: request.headers },
             })
-            cookiesToSet.forEach(({ name, value, options }) =>
+            cookiesToSet.forEach(({ name, value, options }: {name: string; value: string; options?: any}) =>
               response.cookies.set(name, value, options)
             )
           },
@@ -87,13 +87,13 @@ export async function middleware(request: NextRequest) {
       }
 
       // Hardened role check bypassing RLS with the service role key
-      const adminClient = createServerClient(supabaseUrl, supabaseServiceKey, {
+      const adminClient = createServerClient(supabaseUrl, supabaseServiceKey!, {
         cookies: {
           getAll() {
             return request.cookies.getAll()
           },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value, options }) =>
+          setAll(cookiesToSet: Array<{name: string; value: string; options?: any}>) {
+            cookiesToSet.forEach(({ name, value, options }: {name: string; value: string; options?: any}) =>
               response.cookies.set(name, value, options)
             )
           },

@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     await guild.channels.fetch()
 
     const channels = guild.channels.cache
-      .map(channel => ({
+      .map((channel: any) => ({
         id: channel.id,
         name: channel.name,
         type: channel.type,
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
         nsfw: (channel as any).nsfw,
         permissionOverwrites: (channel as any).permissionOverwrites?.cache?.size || 0,
       }))
-      .sort((a, b) => a.position - b.position)
+      .sort((a: any, b: any) => a.position - b.position)
 
     return NextResponse.json({ 
       channels: Array.from(channels),

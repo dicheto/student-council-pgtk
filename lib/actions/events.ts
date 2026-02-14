@@ -3,7 +3,7 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { revalidatePath } from 'next/cache'
-import { createEvent } from 'ics'
+import { createEvent as createICSEvent } from 'ics'
 
 export interface CreateEventInput {
   title: string
@@ -37,11 +37,11 @@ function generateICS(event: {
   endDate?: string
   location?: string
   locationUrl?: string
-}) {
+}): string | null {
   const startDate = new Date(event.date)
   const endDate = event.endDate ? new Date(event.endDate) : new Date(startDate.getTime() + 3600000)
 
-  const icsEvent = createEvent({
+  const icsResult = createICSEvent({
     title: event.title,
     description: event.description || '',
     start: [
@@ -50,23 +50,23 @@ function generateICS(event: {
       startDate.getDate(),
       startDate.getHours(),
       startDate.getMinutes(),
-    ],
+    ] as any,
     end: [
       endDate.getFullYear(),
       endDate.getMonth() + 1,
       endDate.getDate(),
       endDate.getHours(),
       endDate.getMinutes(),
-    ],
+    ] as any,
     location: event.location || '',
     url: event.locationUrl,
-  })
+  } as any)
 
-  if (icsEvent.error) {
+  if (icsResult.error) {
     return null
   }
 
-  return icsEvent.value
+  return icsResult.value || null
 }
 
 export async function createEvent(input: CreateEventInput) {

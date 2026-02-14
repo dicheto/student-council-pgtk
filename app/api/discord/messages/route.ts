@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
     const messages = await channel.messages.fetch({ limit: Math.min(limit, 100) })
 
-    const formattedMessages = messages.map(msg => ({
+    const formattedMessages = messages.map((msg: any) => ({
       id: msg.id,
       content: msg.content,
       author: {
@@ -36,13 +36,13 @@ export async function GET(request: NextRequest) {
         bot: msg.author.bot,
       },
       embeds: msg.embeds,
-      attachments: msg.attachments.map(att => ({
+      attachments: msg.attachments.map((att: any) => ({
         id: att.id,
         url: att.url,
         name: att.name,
         size: att.size,
       })),
-      reactions: msg.reactions.cache.map(reaction => ({
+      reactions: msg.reactions.cache.map((reaction: any) => ({
         emoji: reaction.emoji.name,
         count: reaction.count,
       })),

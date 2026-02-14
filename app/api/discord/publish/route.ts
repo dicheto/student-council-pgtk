@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Създаване на Rich Embed за Discord
-    const embed = {
+    const embed: Record<string, any> = {
       title: title,
       description: excerpt || content.substring(0, 200) + '...',
       color: 0x1e3a8a, // Primary blue color

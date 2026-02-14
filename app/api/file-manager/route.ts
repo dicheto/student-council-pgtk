@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import * as fs from 'fs/promises'
 import * as path from 'path'
 import { existsSync } from 'fs'
+import { createClient } from '@/lib/supabase/server'
 
 // Independent auth check - works in Route Handler context
 async function checkAuth(request: NextRequest): Promise<{ authorized: boolean; user?: any }> {
@@ -20,7 +21,7 @@ async function checkAuth(request: NextRequest): Promise<{ authorized: boolean; u
               value: cookie.value,
             }))
           },
-          setAll(cookiesToSet) {
+          setAll(cookiesToSet: Array<{name: string; value: string; options?: any}>) {
             // In Route Handler, we can't set cookies directly
             // This is fine for read-only operations
           },
