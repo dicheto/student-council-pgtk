@@ -37,7 +37,7 @@ export async function GET() {
       stats: {
         guilds: guilds.size,
         channels: channels.size,
-        users: guilds.reduce((acc, guild) => acc + guild.memberCount, 0),
+        users: guilds.reduce((acc: number, guild) => acc + guild.memberCount, 0),
       },
       status: user?.presence?.status || 'offline',
       shards: client.shard?.count || 1,
