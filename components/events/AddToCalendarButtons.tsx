@@ -1,0 +1,110 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import { Calendar as CalendarIcon, Download } from 'lucide-react'
+import { Event } from '@/types/events'
+import { format } from 'date-fns'
+
+interface AddToCalendarButtonsProps {
+  event: Event
+}
+
+export function AddToCalendarButtons({ event }: AddToCalendarButtonsProps) {
+  // Генериране на Google Calendar URL
+  const generateGoogleCalendarUrl = () => {
+    const startDate = event.startDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
+    const endDate = event.endDate.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
+    
+    const params = new URLSearchParams({
+      action: 'TEMPLATE',
+      text: event.title,
+      dates: `${startDate}/${endDate}`,
+      details: event.description,
+      location: event.location,
+    })
+
+    return `https://calendar.google.com/calendar/render?${params.toString()}`
+  }
+
+  // Генериране на .ics файл за Apple Calendar и други
+  const generateICSFile = () => {
+    const formatDate = (date: Date) => {
+      return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
+    }
+
+    const icsContent = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Student Council//Event Calendar//EN',
+      'CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT',
+      `UID:${event.id}@studentcouncil.pgtk`,
+      `DTSTAMP:${formatDate(new Date())}`,
+      `DTSTART:${formatDate(event.startDate)}`,
+      `DTEND:${formatDate(event.endDate)}`,
+      `SUMMARY:${event.title}`,
+      `DESCRIPTION:${event.description.replace(/\n/g, '\\n')}`,
+      `LOCATION:${event.location}`,
+      'STATUS:CONFIRMED',
+      'SEQUENCE:0',
+      'END:VEVENT',
+      'END:VCALENDAR',
+    ].join('\r\n')
+
+    const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' })
+    const url = URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${event.title.replace(/[^a-z0-9]/gi, '_')}.ics`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    URL.revokeObjectURL(url)
+  }
+
+  const handleGoogleCalendar = () => {
+    window.open(generateGoogleCalendarUrl(), '_blank', 'noopener,noreferrer')
+  }
+
+  const handleAppleCalendar = () => {
+    generateICSFile()
+  }
+
+  return (
+    <div className="space-y-3">
+      <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+        Добави към календар
+      </p>
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {/* Google Calendar Button */}
+        <motion.button
+          onClick={handleGoogleCalendar}
+          className="flex items-center justify-center space-x-3 px-6 py-4 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-xl font-semibold text-gray-900 dark:text-white hover:border-primary dark:hover:border-primary-light transition-all shadow-sm"
+          whileHover={{ scale: 1.02, y: -2 }}
+          whileTap={{ scale: 0.98 }}
+          aria-label="Добави в Google Calendar"
+        >
+          <CalendarIcon className="w-5 h-5 text-primary dark:text-primary-light" />
+          <span>Google Calendar</span>
+        </motion.button>
+
+        {/* Apple Calendar Button */}
+        <motion.button
+          onClick={handleAppleCalendar}
+          className="flex items-center justify-center space-x-3 px-6 py-4 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-xl font-semibold text-gray-900 dark:text-white hover:border-primary dark:hover:border-primary-light transition-all shadow-sm"
+          whileHover={{ scale: 1.02, y: -2 }}
+          whileTap={{ scale: 0.98 }}
+          aria-label="Добави в Apple Calendar"
+        >
+          <Download className="w-5 h-5 text-primary dark:text-primary-light" />
+          <span>Apple Calendar</span>
+        </motion.button>
+      </div>
+
+      <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
+        .ics файлът работи и с Outlook, Thunderbird и други календарни приложения
+      </p>
+    </div>
+  )
+}

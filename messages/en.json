@@ -1,0 +1,34 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "readMore": "Read more",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "search": "Search"
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About",
+    "events": "Events",
+    "news": "News",
+    "gallery": "Gallery",
+    "contact": "Contact"
+  },
+  "news": {
+    "title": "News",
+    "latest": "Latest news",
+    "readMore": "Read more",
+    "published": "Published",
+    "draft": "Draft"
+  },
+  "events": {
+    "title": "Events",
+    "upcoming": "Upcoming events",
+    "past": "Past events",
+    "addToCalendar": "Add to calendar"
+  }
+}

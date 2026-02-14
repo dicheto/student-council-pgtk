@@ -1,0 +1,47 @@
+{
+  "name": "student-council-pgtk",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -H 0.0.0.0 -p 3001",
+    "build": "next build",
+    "start": "next start -H 0.0.0.0 -p 3001",
+    "lint": "next lint",
+    "db:setup": "node ./scripts/supabase-db.mjs setup",
+    "db:reset": "cmd /c \"set I_UNDERSTAND_DB_RESET=YES&& node ./scripts/supabase-db.mjs reset\""
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.90.1",
+    "axios": "^1.6.2",
+    "clsx": "^2.1.0",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.6.1",
+    "discord.js": "^14.25.1",
+    "feed": "^4.2.2",
+    "framer-motion": "^11.0.0",
+    "googleapis": "^137.0.0",
+    "ics": "^3.8.1",
+    "lucide-react": "^0.344.0",
+    "next": "^14.2.0",
+    "pg": "^8.16.3",
+    "next-intl": "^3.8.0",
+    "next-themes": "^0.2.1",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "react-dropzone": "^14.3.8",
+    "tailwind-merge": "^2.2.0",
+    "zlib-sync": "^0.1.10"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^14.2.0",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.3.0"
+  }
+}
