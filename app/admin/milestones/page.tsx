@@ -456,7 +456,7 @@ function MilestoneForm({
               className="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary"
             />
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Маркирай като важно събитие (показва "Не пропускайте!")
+              Маркирай като важно събитие (показва &quot;Не пропускайте!&quot;)
             </span>
           </label>
         </div>
