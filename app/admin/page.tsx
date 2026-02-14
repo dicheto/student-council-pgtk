@@ -66,12 +66,20 @@ function StatsCard({ title, value, change, trend, icon: Icon, color, href }: any
 }
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState([
+  const [stats, setStats] = useState<Array<{
+    title: string;
+    value: string;
+    change: string;
+    trend: 'up' | 'down' | 'neutral';
+    icon: any;
+    color: string;
+    href: string;
+  }>>([
     {
       title: 'Общо Новини',
       value: '0',
       change: '0',
-      trend: 'neutral' as const,
+      trend: 'neutral',
       icon: Newspaper,
       color: 'from-blue-500 to-blue-600',
       href: '/admin/news',
@@ -80,7 +88,7 @@ export default function AdminDashboard() {
       title: 'Активни Събития',
       value: '0',
       change: '0',
-      trend: 'neutral' as const,
+      trend: 'neutral',
       icon: Calendar,
       color: 'from-emerald-500 to-emerald-600',
       href: '/admin/events',
@@ -89,7 +97,7 @@ export default function AdminDashboard() {
       title: 'Членове на екипа',
       value: '0',
       change: '0',
-      trend: 'neutral' as const,
+      trend: 'neutral',
       icon: Users,
       color: 'from-purple-500 to-purple-600',
       href: '/admin/team',
@@ -98,7 +106,7 @@ export default function AdminDashboard() {
       title: 'Прегледи/месец',
       value: '0',
       change: '0',
-      trend: 'neutral' as const,
+      trend: 'neutral',
       icon: Eye,
       color: 'from-amber-500 to-amber-600',
       href: '/admin/settings',
@@ -200,7 +208,7 @@ export default function AdminDashboard() {
             title: 'Общо Новини',
             value: String(newsCount || 0),
             change: String(publishedNewsCount || 0),
-            trend: 'up' as const,
+            trend: 'up',
             icon: Newspaper,
             color: 'from-blue-500 to-blue-600',
             href: '/admin/news',
@@ -209,7 +217,7 @@ export default function AdminDashboard() {
             title: 'Активни Събития',
             value: String(upcomingEventsCount || 0),
             change: '+0',
-            trend: 'neutral' as const,
+            trend: 'neutral',
             icon: Calendar,
             color: 'from-emerald-500 to-emerald-600',
             href: '/admin/events',
@@ -218,7 +226,7 @@ export default function AdminDashboard() {
             title: 'Членове на екипа',
             value: String(teamCount || 0),
             change: '0',
-            trend: 'neutral' as const,
+            trend: 'neutral',
             icon: Users,
             color: 'from-purple-500 to-purple-600',
             href: '/admin/team',
@@ -227,7 +235,7 @@ export default function AdminDashboard() {
             title: 'Прегледи/месец',
             value: viewsThisMonth >= 1000 ? `${(viewsThisMonth / 1000).toFixed(1)}K` : String(viewsThisMonth),
             change: '+0%',
-            trend: 'up' as const,
+            trend: 'up',
             icon: Eye,
             color: 'from-amber-500 to-amber-600',
             href: '/admin/settings',
