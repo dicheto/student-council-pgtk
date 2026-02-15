@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server'
 import { google } from 'googleapis'
 
+// Mark as dynamic route
+export const dynamic = 'force-dynamic'
+
 const SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 
 function getDriveConfig() {
@@ -9,9 +12,7 @@ function getDriveConfig() {
   const folderId = process.env.GOOGLE_DRIVE_FOLDER_ID
 
   if (!email || !key || !folderId) {
-    throw new Error(
-      'Google Drive не е конфигуриран. Задай GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY и GOOGLE_DRIVE_FOLDER_ID в .env.local'
-    )
+    return null // Return null instead of throwing error
   }
 
   // Частните ключове в .env обичайно имат \n вместо реални нови редове
@@ -22,8 +23,18 @@ function getDriveConfig() {
 
 export async function GET() {
   try {
-    const { email, key, folderId } = getDriveConfig()
+    const config = getDriveConfig()
+    
+    // If Google Drive is not configured, return empty array
+    if (!config) {
+      return NextResponse.json({ 
+        files: [],
+        configured: false,
+        message: 'Google Drive integration is not configured'
+      })
+    }
 
+    const { email, key, folderId } = config
     const auth = new google.auth.JWT(email, undefined, key, SCOPES)
     const drive = google.drive({ version: 'v3', auth })
 
@@ -44,15 +55,17 @@ export async function GET() {
         createdAt: file.createdTime,
       })) ?? []
 
-    return NextResponse.json({ files })
+    return NextResponse.json({ files, configured: true })
   } catch (error: any) {
     console.error('Error fetching Google Drive images:', error)
     return NextResponse.json(
       {
+        files: [],
+        configured: false,
         error: 'Failed to fetch images from Google Drive',
         details: error?.message ?? String(error),
       },
-      { status: 500 }
+      { status: 200 } // Return 200 instead of 500 to avoid breaking the app
     )
   }
 }

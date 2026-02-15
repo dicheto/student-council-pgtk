@@ -1,0 +1,11 @@
+# Files to ignore during Vercel deployment
+.git
+node_modules
+.next
+.env*.local
+*.md
+.vscode
+.idea
+supabase/migrations
+scripts
+*.log

@@ -3,6 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   // Disable strict mode to avoid double mounting in dev (helps with Supabase locks)
   // reactStrictMode: false, // Uncomment if AbortError persists
+  
   images: {
     remotePatterns: [
       {
@@ -17,6 +18,8 @@ const nextConfig = {
     serverActions: {
       bodySizeLimit: '2mb',
     },
+    // Optimize bundle size
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
   webpack: (config, { isServer }) => {
     // Discord.js и неговите зависимости трябва да се използват само на сървъра
@@ -27,6 +30,8 @@ const nextConfig = {
         'utf-8-validate': 'commonjs utf-8-validate',
         'bufferutil': 'commonjs bufferutil',
         'discord.js': 'commonjs discord.js',
+        'googleapis': 'commonjs googleapis',
+        'google-auth-library': 'commonjs google-auth-library',
       })
     } else {
       // На клиента, маркирай всички Node.js модули като false
@@ -38,8 +43,16 @@ const nextConfig = {
         dns: false,
         child_process: false,
         'discord.js': false,
+        'googleapis': false,
       }
     }
+    
+    // Optimize chunks
+    config.optimization = {
+      ...config.optimization,
+      usedExports: true,
+    }
+    
     return config
   },
 }
