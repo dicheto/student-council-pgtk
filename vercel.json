@@ -1,0 +1,17 @@
+{
+  "functions": {
+    "app/api/discord/**/*.ts": {
+      "memory": 1024,
+      "maxDuration": 60
+    },
+    "app/api/gallery/drive/route.ts": {
+      "memory": 512,
+      "maxDuration": 30
+    },
+    "app/api/**/*.ts": {
+      "memory": 512,
+      "maxDuration": 30
+    }
+  },
+  "regions": ["iad1"]
+}
