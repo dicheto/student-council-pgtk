@@ -1,3 +1,5 @@
+'use client'
+
 import { motion } from 'framer-motion'
 import { CheckCircle, Zap, Shield, Globe } from 'lucide-react'
 

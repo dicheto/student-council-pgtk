@@ -1,3 +1,5 @@
+'use client'
+
 import { motion } from 'framer-motion'
 import { CheckCircle, AlertCircle, Info } from 'lucide-react'
 import Link from 'next/link'
