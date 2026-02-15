@@ -10,14 +10,24 @@
     "login": "Login"
   },
   "hero": {
-    "badge": "PGTK Student Council",
-    "title": "Student Excellence",
+    "badge": "Vocational High School of Telecommunications",
+    "title": "A Student Council built to work",
     "title_highlight": "for you",
-    "subtitle": "News, events and initiatives — organized clearly, without noise. One page that looks calm, but moves things forward.",
-    "cta_primary": "Get Started",
-    "cta_secondary": "Learn More",
-    "cta_events": "View upcoming events",
-    "cta_news": "Read the news"
+    "subtitle": "News, events, and initiatives — clearly organized, without noise. One page that looks calm, but keeps things moving.",
+    "cta_primary": "Read more",
+    "cta_secondary": "Learn more",
+    "cta_events": "See upcoming meetings",
+    "cta_news": "Read the news",
+    "card1_title": "Next event",
+    "card1_desc": "See the date, location, and program.",
+    "card2_title": "Latest news",
+    "card2_desc": "A short summary of the latest news and initiatives.",
+    "card3_title": "Gallery",
+    "card3_desc": "Moments worth keeping.",
+    "stat_number": "50+",
+    "stat_events": "Events",
+    "stat_news": "News",
+    "stat_moments": "Gallery"
   },
   "buttons": {
     "save": "Save",
@@ -75,6 +85,15 @@
     "event": "Event",
     "date": "Date"
   },
+  "stats": {
+    "badge": "In numbers",
+    "title": "A few numbers. A clear picture.",
+    "subtitle": "A quick look at what we do and how many people stand behind it.",
+    "members": "Active members",
+    "events_year": "Events per year",
+    "years": "Years of history",
+    "projects": "Current projects"
+  },
   "sections": {
     "about": {
       "title": "About Us",
@@ -100,7 +119,19 @@
     "title": "Ready to Join",
     "subtitle": "Become part of our growing community and make a difference",
     "button": "Get Involved Now",
-    "description": "Join us and help shape the future of our school"
+    "description": "Join us and help shape the future of our school",
+    "feature1_title": "Next event",
+    "feature1_desc": "See the date, location, and program.",
+    "feature2_title": "Latest news",
+    "feature2_desc": "A short summary of the latest news and initiatives.",
+    "feature3_title": "Gallery",
+    "feature3_desc": "Moments worth keeping."
+  },
+  "timeline": {
+    "title": "Calendar",
+    "year": "2024/2025",
+    "subtitle": "Key events and initiatives throughout the school year",
+    "empty": "No calendar events available."
   },
   "footer": {
     "about": "A platform for students to collaborate, grow, and make a positive impact.",

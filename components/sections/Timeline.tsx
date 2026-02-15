@@ -8,6 +8,7 @@ import {
   Star, Zap, Flag
 } from 'lucide-react'
 import { useLanguage } from '@/lib/contexts/LanguageContext'
+import { useDictionary } from '@/lib/hooks/useDictionary'
 
 interface TimelineEvent {
   id: string
@@ -139,6 +140,7 @@ export function Timeline() {
   const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>([])
   const [loading, setLoading] = useState(true)
   const { language } = useLanguage()
+  const { t } = useDictionary('timeline')
 
   useEffect(() => {
     const fetchMilestones = async () => {
@@ -183,7 +185,7 @@ export function Timeline() {
       <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gray-50 dark:bg-slate-900">
         <div className="container mx-auto text-center">
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            Няма налични събития в календара.
+            {t('empty', 'Няма налични събития в календара.')}
           </p>
         </div>
       </section>
@@ -213,13 +215,13 @@ export function Timeline() {
           </motion.div>
           
           <h2 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl mb-4 text-gray-900 dark:text-white">
-            Календар{' '}
+            {t('title', 'Календар')}{' '}
             <span className="bg-gradient-to-r from-accent to-accent-light bg-clip-text text-transparent">
-              2024/2025
+              {t('year', '2024/2025')}
             </span>
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            Основни събития и инициативи през учебната година
+            {t('subtitle', 'Основни събития и инициативи през учебната година')}
           </p>
         </motion.div>
 

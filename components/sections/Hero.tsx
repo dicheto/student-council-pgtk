@@ -6,10 +6,12 @@ import { AnimatedLogo } from '@/components/animations/AnimatedLogo'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useDictionary } from '@/lib/hooks/useDictionary'
+import { useLanguage } from '@/lib/contexts/LanguageContext'
 
 export function Hero() {
   const [mounted, setMounted] = useState(false)
-  const { t } = useDictionary()
+  const { t } = useDictionary('hero')
+  const { language } = useLanguage()
 
   useEffect(() => {
     setMounted(true)
@@ -51,7 +53,7 @@ export function Hero() {
             >
               <Sparkles className="h-4 w-4 text-accent" />
               <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-                {t('hero.badge', 'ПГТК „"')}
+                {t('badge', 'ПГТК')}
               </span>
             </motion.div>
 
@@ -61,9 +63,9 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.08, ease: [0.21, 0.61, 0.35, 1] }}
               className="mt-6 text-5xl font-semibold tracking-tight text-slate-900 dark:text-white sm:text-6xl lg:text-7xl"
             >
-              {t('hero.title', 'Ученическият съвет, направен да работи')}
+              {t('title', 'Ученическият съвет, направен да работи')}
               <br />
-              <span className="text-primary">{t('hero.title_highlight', 'за вас')}</span>.
+              <span className="text-primary">{t('title_highlight', 'за вас')}</span>.
             </motion.h1>
 
             <motion.p
@@ -72,7 +74,7 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.16, ease: [0.21, 0.61, 0.35, 1] }}
               className="mt-6 max-w-xl text-lg leading-relaxed text-slate-600 dark:text-slate-300"
             >
-              {t('hero.subtitle', 'Новини, събития и инициативи — подредени ясно, без шум. Една страница, която изглежда спокойно, но движи нещата напред.')}
+              {t('subtitle', 'Новини, събития и инициативи — подредени ясно, без шум. Една страница, която изглежда спокойно, но движи нещата напред.')}
             </motion.p>
 
             <motion.div
@@ -85,14 +87,14 @@ export function Hero() {
                 href="/events"
                 className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-slate-900/15 transition-transform hover:-translate-y-0.5 active:translate-y-0 dark:bg-white dark:text-slate-900"
               >
-                {t('hero.cta_events', 'Виж предстоящите години')}
+                {t('cta_events', 'Виж предстоящите години')}
               </Link>
 
               <Link
                 href="/news"
                 className="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-primary hover:bg-primary/5 dark:hover:bg-white/5"
               >
-                {t('hero.cta_news', 'Прочети новините')}
+                {t('cta_news', 'Прочети новините')}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </motion.div>
@@ -104,9 +106,9 @@ export function Hero() {
               className="mt-10 grid grid-cols-3 gap-3"
             >
               {[
-                { label: 'hero.stat_events', value: '50+', icon: CalendarDays },
-                { label: 'hero.stat_news', value: 'Винаги', icon: Newspaper },
-                { label: 'hero.stat_moments', value: 'Галерия', icon: Images },
+                { label: 'stat_events', value: '50+', icon: CalendarDays },
+                { label: 'stat_news', value: 'Винаги', icon: Newspaper },
+                { label: 'stat_moments', value: 'Галерия', icon: Images },
               ].map((item) => (
                 <div key={item.label} className="apple-glass px-4 py-4">
                   <item.icon className="h-4 w-4 text-slate-500 dark:text-slate-300" />
@@ -147,10 +149,10 @@ export function Hero() {
                     </motion.div>
                     <div>
                       <div className="text-sm font-bold tracking-tight text-slate-900 dark:text-white">
-                        {t('hero.dashboard_title', 'Табло на съвета')}
+                        {t('dashboard_title', 'Табло на съвета')}
                       </div>
                       <div className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                        {t('hero.dashboard_subtitle', 'Днес • обновено в реално време')}
+                        {t('dashboard_subtitle', 'Днес • обновено в реално време')}
                       </div>
                     </div>
                   </div>
@@ -177,9 +179,9 @@ export function Hero() {
 
                 <div className="mt-6 grid gap-3">
                   {[
-                    { title: 'hero.card1_title', desc: 'hero.card1_desc', tone: 'from-primary/18 to-transparent', glow: 'hover:shadow-primary/10' },
-                    { title: 'hero.card2_title', desc: 'hero.card2_desc', tone: 'from-slate-900/8 to-transparent dark:from-white/10', glow: 'hover:shadow-slate-500/10' },
-                    { title: 'hero.card3_title', desc: 'hero.card3_desc', tone: 'from-accent/14 to-transparent', glow: 'hover:shadow-accent/10' },
+                    { title: 'card1_title', desc: 'card1_desc', tone: 'from-primary/18 to-transparent', glow: 'hover:shadow-primary/10' },
+                    { title: 'card2_title', desc: 'card2_desc', tone: 'from-slate-900/8 to-transparent dark:from-white/10', glow: 'hover:shadow-slate-500/10' },
+                    { title: 'card3_title', desc: 'card3_desc', tone: 'from-accent/14 to-transparent', glow: 'hover:shadow-accent/10' },
                   ].map((card, i) => (
                     <motion.div
                       key={card.title}

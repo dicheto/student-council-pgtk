@@ -4,6 +4,7 @@ import { motion, useInView, useMotionValue, useSpring } from 'framer-motion'
 import { useRef, useEffect, useState } from 'react'
 import { Users, Calendar, Trophy, Heart } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
+import { useDictionary } from '@/lib/hooks/useDictionary'
 
 interface StatItemProps {
   value: number
@@ -74,11 +75,12 @@ function StatItem({ value, suffix = '', label, icon: Icon, delay = 0 }: StatItem
 }
 
 export function StatsSection() {
+  const { t } = useDictionary('stats')
   const [stats, setStats] = useState([
-    { value: 0, suffix: '+', label: 'Активни членове', icon: Users },
-    { value: 0, suffix: '+', label: 'Събития годишно', icon: Calendar },
-    { value: 0, suffix: '+', label: 'Години история', icon: Trophy },
-    { value: 0, suffix: '+', label: 'Текущи проекти', icon: Heart },
+    { value: 0, suffix: '+', labelKey: 'members', icon: Users },
+    { value: 0, suffix: '+', labelKey: 'events_year', icon: Calendar },
+    { value: 0, suffix: '+', labelKey: 'years', icon: Trophy },
+    { value: 0, suffix: '+', labelKey: 'projects', icon: Heart },
   ])
 
   useEffect(() => {
@@ -127,10 +129,10 @@ export function StatsSection() {
         const upcomingCount = upcomingRes.count ?? 0
 
         setStats([
-          { value: membersCount || 0, suffix: '+', label: 'Активни членове', icon: Users },
-          { value: eventsYearCount || 0, suffix: '+', label: 'Събития годишно', icon: Calendar },
-          { value: yearsHistory || 1, suffix: '+', label: 'Години история', icon: Trophy },
-          { value: upcomingCount || 0, suffix: '+', label: 'Текущи проекти', icon: Heart },
+          { value: membersCount || 0, suffix: '+', labelKey: 'members', icon: Users },
+          { value: eventsYearCount || 0, suffix: '+', labelKey: 'events_year', icon: Calendar },
+          { value: yearsHistory || 1, suffix: '+', labelKey: 'years', icon: Trophy },
+          { value: upcomingCount || 0, suffix: '+', labelKey: 'projects', icon: Heart },
         ])
       } catch (error) {
         console.error('Error loading stats:', error)
@@ -155,14 +157,14 @@ export function StatsSection() {
         >
           <div className="mx-auto inline-flex items-center gap-2 rounded-full px-4 py-2 apple-glass">
             <span className="text-xs font-semibold tracking-wide text-slate-700 dark:text-slate-200">
-              В числа
+              {t('badge', 'В числа')}
             </span>
           </div>
           <h2 className="mt-5 font-display text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight text-slate-900 dark:text-white">
-            Малко цифри. Ясна картина.
+            {t('title', 'Малко цифри. Ясна картина.')}
           </h2>
           <p className="mt-3 text-base sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-            Кратък поглед към това какво правим и колко хора стоят зад него.
+            {t('subtitle', 'Кратък поглед към това какво правим и колко хора стоят зад него.')}
           </p>
         </motion.div>
 
@@ -170,8 +172,11 @@ export function StatsSection() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {stats.map((stat, index) => (
             <StatItem
-              key={stat.label}
-              {...stat}
+              key={stat.labelKey}
+              value={stat.value}
+              suffix={stat.suffix}
+              label={t(stat.labelKey, stat.labelKey)}
+              icon={stat.icon}
               delay={index * 0.1}
             />
           ))}
