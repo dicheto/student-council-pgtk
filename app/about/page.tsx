@@ -10,6 +10,8 @@ import {
 } from 'lucide-react'
 import { useRef } from 'react'
 import { AnimatedLogo } from '@/components/animations/AnimatedLogo'
+import { useI18n } from '@/lib/hooks/useI18n'
+import { useSiteSettings } from '@/lib/hooks/useSiteSettings'
 
 const stats = [
   { label: 'Членове', value: '200', suffix: '+', icon: Users },
@@ -67,6 +69,8 @@ const milestones = [
 ]
 
 export default function AboutPage() {
+  const { t, language } = useI18n()
+  const { settings } = useSiteSettings()
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,

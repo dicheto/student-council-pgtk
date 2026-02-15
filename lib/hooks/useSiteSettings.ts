@@ -19,12 +19,12 @@ interface SiteSettings {
 }
 
 const defaultSettings: SiteSettings = {
-  logoUrl: null,
+  logoUrl: 'https://dyjthzvdsfcdumavuwmb.supabase.co/storage/v1/object/public/news-images/news/1770295712131-qouz7.png',
   siteNameBg: 'Ученически Съвет',
   siteNameEn: 'Student Council',
   siteDescriptionBg: 'Вдъхновяваме промяна, изграждаме общност, създаваме бъдеще.',
   siteDescriptionEn: 'Inspiring change, building community, creating the future.',
-  schoolNameBg: 'ПГТК ""',
+  schoolNameBg: 'ПГТК "Георги Измирлиев"',
   schoolNameEn: 'Vocational High School of Tourism and Culinary Arts "Georgi Izmirliev"',
   email: 'contact@pgtk.bg',
   phone: '+359 XXX XXX XXX',
@@ -70,7 +70,7 @@ export function useSiteSettings() {
           data.forEach((item: { key: string; value: any }) => {
             switch (item.key) {
               case 'logo_url':
-                newSettings.logoUrl = item.value || null
+                newSettings.logoUrl = item.value || defaultSettings.logoUrl
                 break
               case 'site_name_bg':
                 newSettings.siteNameBg = item.value || defaultSettings.siteNameBg

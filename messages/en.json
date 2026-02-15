@@ -8,7 +8,11 @@
     "delete": "Delete",
     "edit": "Edit",
     "create": "Create",
-    "search": "Search"
+    "search": "Search",
+    "viewAll": "View all",
+    "learnMore": "Learn more",
+    "backHome": "Back to home",
+    "noResults": "No results"
   },
   "navigation": {
     "home": "Home",
@@ -16,19 +20,78 @@
     "events": "Events",
     "news": "News",
     "gallery": "Gallery",
-    "contact": "Contact"
+    "contact": "Contact",
+    "features": "Features"
+  },
+  "hero": {
+    "title": "PGTK Student Council",
+    "subtitle": "Inspiring change, building community, creating the future",
+    "cta": "Learn more",
+    "secondary": "Upcoming events"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Get to know our student council",
+    "mission": "Our Mission",
+    "missionText": "To represent the interests of all students and create an inspiring environment for learning and development.",
+    "vision": "Our Vision",
+    "visionText": "To be a leading force for positive change in school and society.",
+    "values": "Our Values",
+    "teamTitle": "Our Team"
   },
   "news": {
     "title": "News",
     "latest": "Latest news",
     "readMore": "Read more",
     "published": "Published",
-    "draft": "Draft"
+    "draft": "Draft",
+    "noNews": "No published news",
+    "author": "Author",
+    "date": "Date",
+    "share": "Share"
   },
   "events": {
     "title": "Events",
     "upcoming": "Upcoming events",
     "past": "Past events",
-    "addToCalendar": "Add to calendar"
+    "addToCalendar": "Add to calendar",
+    "noEvents": "No upcoming events",
+    "location": "Location",
+    "date": "Date",
+    "time": "Time",
+    "details": "Details"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "subtitle": "Memories from our events",
+    "albums": "Albums",
+    "photos": "Photos",
+    "noPhotos": "No photos"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Have a question? Get in touch!",
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send",
+    "sending": "Sending...",
+    "success": "Message sent successfully!",
+    "error": "Error sending message",
+    "address": "Address",
+    "phone": "Phone",
+    "followUs": "Follow us"
+  },
+  "footer": {
+    "copyright": "© 2026 PGTK Student Council. All rights reserved.",
+    "quickLinks": "Quick links",
+    "followUs": "Follow us",
+    "contact": "Contact"
+  },
+  "cta": {
+    "title": "Ready to join?",
+    "description": "Become part of our community and make a difference!",
+    "button": "Contact us"
   }
 }
