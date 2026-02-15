@@ -32,11 +32,65 @@
   "about": {
     "title": "About Us",
     "subtitle": "Get to know our student council",
+    "badge": "PGTK",
+    "heroDescription": "The PGTK Student Council is an organization by students for students. We are the voice of every student and work to improve school life.",
+    "stats": {
+      "members": "Members",
+      "events": "Events/year",
+      "years": "Years of history",
+      "projects": "Active projects"
+    },
     "mission": "Our Mission",
-    "missionText": "To represent the interests of all students and create an inspiring environment for learning and development.",
+    "missionTitle": "Our Mission",
+    "missionText1": "The Student Council works to create a dynamic and inclusive environment where every student can develop their potential, be heard, and contribute to school life.",
+    "missionText2": "We are the voice of the students and partners with the administration in creating a positive school community. We organize events, support initiatives, and make the school a place where everyone wants to be.",
+    "quote": "Together we can achieve more than individually. The Student Council is proof of this.",
+    "quoteAuthor": "Student Council President",
     "vision": "Our Vision",
-    "visionText": "To be a leading force for positive change in school and society.",
+    "visionText": "To be a leading force for positive change in the school and community.",
     "values": "Our Values",
+    "valuesTitle": "Our Values",
+    "valuesSubtitle": "The principles that guide us in everything we do",
+    "valuesList": {
+      "heart": {
+        "title": "Heart and Spirit",
+        "description": "We believe in the power of community and collective spirit. Every student matters."
+      },
+      "target": {
+        "title": "Goal and Focus",
+        "description": "We set clear goals and work hard to achieve them."
+      },
+      "collaboration": {
+        "title": "Collaboration",
+        "description": "We work together as one team for the common good of all students."
+      },
+      "excellence": {
+        "title": "Excellence",
+        "description": "We strive for the highest standards and recognize outstanding achievements."
+      },
+      "innovation": {
+        "title": "Innovation",
+        "description": "We seek new and creative approaches to problem solving."
+      },
+      "development": {
+        "title": "Development",
+        "description": "We support the personal and professional development of every member."
+      }
+    },
+    "history": "Our History",
+    "historyTitle": "Our History",
+    "historySubtitle": "The journey we've taken together",
+    "timeline": {
+      "2014": "Founding of the Student Council",
+      "2016": "First charity campaign",
+      "2018": "Creation of the traditional autumn ball",
+      "2020": "Transition to online format",
+      "2022": "Most members in history",
+      "2024": "New modern website"
+    },
+    "ctaTitle": "Join Us!",
+    "ctaDescription": "The Student Council is open to all students who want to make a difference. Whether you want to organize events or just help out, there's a place for you!",
+    "ctaButton": "Contact Us",
     "teamTitle": "Our Team"
   },
   "news": {

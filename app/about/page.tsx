@@ -13,64 +13,64 @@ import { AnimatedLogo } from '@/components/animations/AnimatedLogo'
 import { useI18n } from '@/lib/hooks/useI18n'
 import { useSiteSettings } from '@/lib/hooks/useSiteSettings'
 
-const stats = [
-  { label: 'Членове', value: '200', suffix: '+', icon: Users },
-  { label: 'Събития/година', value: '50', suffix: '+', icon: Trophy },
-  { label: 'Години история', value: '10', suffix: '+', icon: Star },
-  { label: 'Активни проекти', value: '15', suffix: '+', icon: Rocket },
-]
-
-const values = [
-  {
-    icon: Heart,
-    title: 'Сърце и дух',
-    description: 'Вярваме в силата на общността и колективния дух. Всеки ученик е важен.',
-    color: 'from-rose-500 to-pink-500',
-  },
-  {
-    icon: Target,
-    title: 'Цел и фокус',
-    description: 'Поставяме ясни цели и работим упорито за тяхното постигане.',
-    color: 'from-blue-500 to-cyan-500',
-  },
-  {
-    icon: Handshake,
-    title: 'Сътрудничество',
-    description: 'Работим заедно като един екип за общото благо на всички ученици.',
-    color: 'from-green-500 to-emerald-500',
-  },
-  {
-    icon: Award,
-    title: 'Отличие',
-    description: 'Стремим се към най-високи стандарти и признаваме отличните постижения.',
-    color: 'from-amber-500 to-orange-500',
-  },
-  {
-    icon: Lightbulb,
-    title: 'Иновации',
-    description: 'Търсим нови и креативни подходи за решаване на проблеми.',
-    color: 'from-purple-500 to-violet-500',
-  },
-  {
-    icon: GraduationCap,
-    title: 'Развитие',
-    description: 'Подкрепяме личностното и професионално развитие на всеки член.',
-    color: 'from-indigo-500 to-blue-500',
-  },
-]
-
-const milestones = [
-  { year: '2014', event: 'Основаване на Ученическия съвет' },
-  { year: '2016', event: 'Първа благотворителна кампания' },
-  { year: '2018', event: 'Създаване на традиционния есенен бал' },
-  { year: '2020', event: 'Преминаване към онлайн формат' },
-  { year: '2022', event: 'Най-много членове в историята' },
-  { year: '2024', event: 'Нов модерен уебсайт' },
-]
-
 export default function AboutPage() {
   const { t, language } = useI18n()
   const { settings } = useSiteSettings()
+
+  const stats = [
+    { label: t('about.stats.members'), value: '200', suffix: '+', icon: Users },
+    { label: t('about.stats.events'), value: '50', suffix: '+', icon: Trophy },
+    { label: t('about.stats.years'), value: '10', suffix: '+', icon: Star },
+    { label: t('about.stats.projects'), value: '15', suffix: '+', icon: Rocket },
+  ]
+
+  const values = [
+    {
+      icon: Heart,
+      title: t('about.valuesList.heart.title'),
+      description: t('about.valuesList.heart.description'),
+      color: 'from-rose-500 to-pink-500',
+    },
+    {
+      icon: Target,
+      title: t('about.valuesList.target.title'),
+      description: t('about.valuesList.target.description'),
+      color: 'from-blue-500 to-cyan-500',
+    },
+    {
+      icon: Handshake,
+      title: t('about.valuesList.collaboration.title'),
+      description: t('about.valuesList.collaboration.description'),
+      color: 'from-green-500 to-emerald-500',
+    },
+    {
+      icon: Award,
+      title: t('about.valuesList.excellence.title'),
+      description: t('about.valuesList.excellence.description'),
+      color: 'from-amber-500 to-orange-500',
+    },
+    {
+      icon: Lightbulb,
+      title: t('about.valuesList.innovation.title'),
+      description: t('about.valuesList.innovation.description'),
+      color: 'from-purple-500 to-violet-500',
+    },
+    {
+      icon: GraduationCap,
+      title: t('about.valuesList.development.title'),
+      description: t('about.valuesList.development.description'),
+      color: 'from-indigo-500 to-blue-500',
+    },
+  ]
+
+  const milestones = [
+    { year: '2014', event: t('about.timeline.2014') },
+    { year: '2016', event: t('about.timeline.2016') },
+    { year: '2018', event: t('about.timeline.2018') },
+    { year: '2020', event: t('about.timeline.2020') },
+    { year: '2022', event: t('about.timeline.2022') },
+    { year: '2024', event: t('about.timeline.2024') },
+  ]
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -125,18 +125,17 @@ export default function AboutPage() {
               transition={{ delay: 0.2 }}
             >
               <Sparkles className="w-4 h-4 text-accent" />
-              <span className="text-sm text-white/90">ПГТК</span>
+              <span className="text-sm text-white/90">{t('about.badge')}</span>
             </motion.div>
 
             <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl text-white mb-6">
-              За{' '}
+              {t('about.title').split(' ')[0]}{' '}
               <span className="bg-gradient-to-r from-primary-light to-white bg-clip-text text-transparent">
-                Нас
+                {t('about.title').split(' ')[1]}
               </span>
             </h1>
             <p className="text-xl text-white/80 leading-relaxed mb-8">
-              Ученическият съвет ПГТК е организация на ученици за ученици. 
-              Ние сме гласът на всеки ученик и работим за подобряване на училищния живот.
+              {t('about.heroDescription')}
             </p>
 
             {/* Quick stats inline */}
@@ -212,18 +211,14 @@ export default function AboutPage() {
               viewport={{ once: true }}
             >
               <h2 className="font-display font-bold text-4xl sm:text-5xl text-gray-900 dark:text-white mb-6">
-                Нашата{' '}
-                <span className="text-gradient">Мисия</span>
+                {t('about.missionTitle').split(' ')[0]}{' '}
+                <span className="text-gradient">{t('about.missionTitle').split(' ')[1]}</span>
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
-                Ученическият съвет работи да създаде динамична и включваща среда, 
-                където всеки ученик може да развие своя потенциал, да бъде чут и 
-                да внесе своя принос в живота на училището.
+                {t('about.missionText1')}
               </p>
               <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8">
-                Ние сме гласът на учащите се и партньори на администрацията в 
-                създаването на позитивна училищна общност. Организираме събития, 
-                подкрепяме инициативи и правим училището място, в което всеки иска да бъде.
+                {t('about.missionText2')}
               </p>
               
               {/* Quote */}
@@ -231,9 +226,9 @@ export default function AboutPage() {
                 <Quote className="w-8 h-8 text-primary flex-shrink-0" />
                 <div>
                   <p className="text-gray-700 dark:text-gray-300 italic mb-2">
-                    „Заедно можем да постигнем повече, отколкото поотделно. Ученическият съвет е доказателство за това.“
+                    „{t('about.quote')}"
                   </p>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">— Председател на УС</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">— {t('about.quoteAuthor')}</span>
                 </div>
               </div>
             </motion.div>
@@ -276,10 +271,10 @@ export default function AboutPage() {
             className="text-center mb-12"
           >
             <h2 className="font-display font-bold text-4xl sm:text-5xl text-gray-900 dark:text-white mb-4">
-              Нашите Ценности
+              {t('about.valuesTitle')}
             </h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Принципите, които ни водят във всичко, което правим
+              {t('about.valuesSubtitle')}
             </p>
           </motion.div>
 
@@ -318,10 +313,10 @@ export default function AboutPage() {
             className="text-center mb-12"
           >
             <h2 className="font-display font-bold text-4xl sm:text-5xl text-gray-900 dark:text-white mb-4">
-              Нашата История
+              {t('about.historyTitle')}
             </h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-              Пътят, който извървяхме заедно
+              {t('about.historySubtitle')}
             </p>
           </motion.div>
 
@@ -368,18 +363,17 @@ export default function AboutPage() {
 
             <div className="relative z-10">
               <h2 className="font-display font-bold text-4xl sm:text-5xl text-white mb-4">
-                Присъедини се към нас!
+                {t('about.ctaTitle')}
               </h2>
               <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
-                Ученическият съвет е отворен за всички ученици, които искат да направят разлика. 
-                Независимо дали искаш да организираш събития или просто да помогнеш, има място за теб!
+                {t('about.ctaDescription')}
               </p>
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 <Link
                   href="/contact"
                   className="inline-flex items-center gap-2 px-8 py-4 bg-white text-primary rounded-full font-bold text-lg shadow-2xl hover:shadow-white/30 transition-shadow"
                 >
-                  Свържи се с нас
+                  {t('about.ctaButton')}
                   <ArrowRight className="w-5 h-5" />
                 </Link>
               </motion.div>
