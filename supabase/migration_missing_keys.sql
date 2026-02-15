@@ -37,6 +37,6 @@ INSERT INTO public.dictionary (key, category, value_en, value_bg, description, s
 ('cta.title', 'sections', 'Idea. Team. Action.', 'Идея. Екип. Действие.', 'CTA - Title', 13),
 ('cta.subtitle', 'sections', 'If you have the energy to improve school life — this is the place. We organize, communicate and finish what we started.', 'Ако имаш енергия да подобряваш училищния живот — тук е място. Ние организираме, комуникираме и довършваме започнатото.', 'CTA - Subtitle', 14),
 ('cta.cta1_btn', 'sections', 'Contact us', 'Свържи се с нас', 'CTA - Button 1', 15),
-('cta.cta2_btn', 'sections', 'Learn more', 'Научи повече', 'CTA - Button 2', 16),
+('cta.cta2_btn', 'sections', 'Learn more', 'Научи повече', 'CTA - Button 2', 16)
 
 ON CONFLICT (key, category) DO NOTHING;
