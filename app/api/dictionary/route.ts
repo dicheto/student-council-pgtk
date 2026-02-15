@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams
     const category = searchParams.get('category')
     const key = searchParams.get('key')
-    const language = searchParams.get('language') || 'bg'
 
     let query = supabase
       .from('dictionary')
@@ -36,13 +35,9 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Transform to return the correct language
-    const transformed = data?.map((item) => ({
-      ...item,
-      value: language === 'en' ? item.value_en : item.value_bg,
-    })) || []
-
-    return NextResponse.json(transformed)
+    // Return full data with both value_en and value_bg
+    // Hook will handle language selection
+    return NextResponse.json(data || [])
   } catch (error) {
     console.error('Dictionary API error:', error)
     return NextResponse.json(
