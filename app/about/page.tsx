@@ -226,7 +226,7 @@ export default function AboutPage() {
                 <Quote className="w-8 h-8 text-primary flex-shrink-0" />
                 <div>
                   <p className="text-gray-700 dark:text-gray-300 italic mb-2">
-                    „{t('about.quote')}"
+                    &ldquo;{t('about.quote')}&rdquo;
                   </p>
                   <span className="text-sm text-gray-500 dark:text-gray-400">— {t('about.quoteAuthor')}</span>
                 </div>
