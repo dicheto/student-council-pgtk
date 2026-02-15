@@ -228,8 +228,8 @@ export function UpcomingEvents() {
           </motion.div>
           
           <h2 className="font-display font-bold text-4xl sm:text-5xl lg:text-6xl mb-4 text-gray-900 dark:text-white">
-            {t('title', 'Предстоящи | Upcoming')}{' '}
-            <span className="text-gradient">{t('title_highlight', 'Събит | Events')}</span>
+            {t('title', 'Предстоящи')}{' '}
+            <span className="text-gradient">{t('title_highlight', 'Събития')}</span>
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             {t('subtitle', 'Не пропускайте нашите вълнуващи събития и инициативи')}

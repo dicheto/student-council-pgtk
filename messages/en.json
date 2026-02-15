@@ -1,0 +1,132 @@
+{
+  "navigation": {
+    "home": "Home",
+    "about": "About Us",
+    "features": "Features",
+    "gallery": "Gallery",
+    "events": "Events",
+    "news": "News",
+    "contact": "Contact",
+    "login": "Login"
+  },
+  "hero": {
+    "badge": "PGTK Student Council",
+    "title": "Student Excellence",
+    "title_highlight": "for you",
+    "subtitle": "News, events and initiatives — organized clearly, without noise. One page that looks calm, but moves things forward.",
+    "cta_primary": "Get Started",
+    "cta_secondary": "Learn More",
+    "cta_events": "View upcoming events",
+    "cta_news": "Read the news"
+  },
+  "buttons": {
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "close": "Close",
+    "details_btn": "Details",
+    "view_all_btn": "View all events",
+    "explore": "Explore",
+    "learn_more": "Learn More",
+    "join_now": "Join Now"
+  },
+  "events": {
+    "title": "Upcoming",
+    "title_highlight": "Events",
+    "subtitle": "Don't miss our exciting events and initiatives",
+    "featured_badge": "Featured",
+    "status_upcoming": "Upcoming",
+    "status_finished": "Finished",
+    "details_btn": "Details",
+    "view_all_btn": "View all events",
+    "no_events": "No upcoming events",
+    "event_details": "Event Details",
+    "date": "Date",
+    "time": "Time",
+    "location": "Location"
+  },
+  "news": {
+    "title": "Latest",
+    "title_highlight": "News",
+    "subtitle": "Stay updated with our latest news and updates",
+    "read_more": "Read More",
+    "view_all": "View all news",
+    "no_news": "No news available",
+    "published": "Published",
+    "author": "Author"
+  },
+  "team": {
+    "title": "Our",
+    "title_highlight": "Team",
+    "subtitle": "Meet the dedicated members of our student council",
+    "view_all": "View all members",
+    "position": "Position",
+    "email": "Email",
+    "no_team": "No team members found"
+  },
+  "gallery": {
+    "title": "Photo",
+    "title_highlight": "Gallery",
+    "subtitle": "Moments from our events and activities",
+    "view_all": "View all photos",
+    "no_images": "No images available",
+    "event": "Event",
+    "date": "Date"
+  },
+  "sections": {
+    "about": {
+      "title": "About Us",
+      "intro": "Welcome to our student council website",
+      "mission_title": "Our Mission",
+      "mission_body": "To empower students and create a vibrant community where every voice is heard and every idea matters.",
+      "values_title": "Our Values",
+      "values_integrity": "Integrity",
+      "values_integrity_desc": "Acting with honesty and strong moral principles in all our actions",
+      "values_teamwork": "Teamwork",
+      "values_teamwork_desc": "Working together to achieve common goals and support each other",
+      "values_innovation": "Innovation",
+      "values_innovation_desc": "Embracing new ideas and creative solutions to challenges",
+      "history_title": "Our History",
+      "history_founded": "Founded in 2015",
+      "history_journey": "Our journey has been filled with achievements and growth. From humble beginnings, we have grown into a leading student organization.",
+      "achievements": "Achievements",
+      "impact": "Impact",
+      "community": "Community"
+    }
+  },
+  "cta": {
+    "title": "Ready to Join",
+    "subtitle": "Become part of our growing community and make a difference",
+    "button": "Get Involved Now",
+    "description": "Join us and help shape the future of our school"
+  },
+  "footer": {
+    "about": "A platform for students to collaborate, grow, and make a positive impact.",
+    "quick_links": "Quick Links",
+    "follow_us": "Follow Us",
+    "contact": "Contact Us",
+    "copyright": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "address": "School Address",
+    "phone": "Phone Number",
+    "email": "Email Address"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success!",
+    "warning": "Warning",
+    "info": "Information",
+    "confirm": "Are you sure?",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter"
+  }
+}

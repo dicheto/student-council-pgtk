@@ -47,11 +47,11 @@ const nextConfig = {
       }
     }
     
-    // Optimize chunks
-    config.optimization = {
-      ...config.optimization,
-      usedExports: true,
-    }
+    // Optimize chunks (but avoid conflicting with cache settings)
+    // config.optimization = {
+    //   ...config.optimization,
+    //   usedExports: true,
+    // }
     
     return config
   },
