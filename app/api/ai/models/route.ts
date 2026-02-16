@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server'
 
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 // Платени модели от OpenRouter за по-висока качество
 const PAID_MODELS = [
   {

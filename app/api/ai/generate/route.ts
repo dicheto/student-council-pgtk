@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
+
 // Безплатни модели от OpenRouter (най-добри първи)
 const FREE_MODELS = [
   'google/gemini-2.0-flash-exp:free', // 1M context, най-добър
