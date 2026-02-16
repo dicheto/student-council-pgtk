@@ -7,7 +7,7 @@ import { AnimatedLogo } from '@/components/animations/AnimatedLogo'
 
 export default function NotFound() {
   return (
-    <div className="relative min-h-screen bg-white dark:bg-[#0b0d12] overflow-hidden">
+    <div className="relative min-h-screen bg-white dark:bg-[#0b0d12] overflow-hidden pt-28">
       {/* Background */}
       <div className="absolute inset-0 bg-apple-grid opacity-40" />
       <div className="absolute inset-0 bg-noise opacity-[0.03] dark:opacity-[0.04]" />

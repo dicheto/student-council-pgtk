@@ -42,7 +42,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="relative min-h-screen bg-white dark:bg-[#0b0d12] pt-24 pb-20">
+    <div className="relative min-h-screen bg-white dark:bg-[#0b0d12] pt-32 pb-20">
       <div className="pointer-events-none absolute inset-0 bg-apple-grid opacity-30" />
       <div className="pointer-events-none absolute inset-0 bg-noise opacity-[0.03] dark:opacity-[0.04]" />
 

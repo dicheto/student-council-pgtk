@@ -8,70 +8,95 @@ import {
   ChevronRight, Award
 } from 'lucide-react'
 import { useDictionary } from '@/lib/hooks/useDictionary'
+import { useLanguage } from '@/lib/contexts/LanguageContext'
 
 interface TeamMember {
   id: number
-  name: string
-  role: string
-  description: string
+  name: { bg: string; en: string }
+  role: { bg: string; en: string }
+  description: { bg: string; en: string }
   image?: string
   socials?: {
     instagram?: string
     email?: string
   }
-  badge?: string
+  badge?: { bg: string; en: string }
 }
 
 const teamMembers: TeamMember[] = [
   {
     id: 1,
-    name: 'Председател',
-    role: 'Ръководител на съвета',
-    description: 'Координира всички дейности и представлява съвета пред училищното ръководство.',
-    badge: 'Лидер',
+    name: { bg: 'Председател', en: 'Chairperson' },
+    role: { bg: 'Ръководител на съвета', en: 'Council lead' },
+    description: {
+      bg: 'Координира всички дейности и представлява съвета пред училищното ръководство.',
+      en: 'Coordinates all activities and represents the council before the school leadership.',
+    },
+    badge: { bg: 'Лидер', en: 'Leader' },
     socials: { email: 'chairman@pgtk.bg' }
   },
   {
     id: 2,
-    name: 'Заместник-председател',
-    role: 'Организационна дейност',
-    description: 'Подпомага председателя и отговаря за организацията на събитията.',
-    badge: 'Организатор',
+    name: { bg: 'Заместник-председател', en: 'Vice Chair' },
+    role: { bg: 'Организационна дейност', en: 'Operations' },
+    description: {
+      bg: 'Подпомага председателя и отговаря за организацията на събитията.',
+      en: 'Supports the chair and oversees event organization.',
+    },
+    badge: { bg: 'Организатор', en: 'Organizer' },
     socials: { email: 'vice@pgtk.bg' }
   },
   {
     id: 3,
-    name: 'Секретар',
-    role: 'Документация',
-    description: 'Води протоколите от заседанията и поддържа документацията на съвета.',
+    name: { bg: 'Секретар', en: 'Secretary' },
+    role: { bg: 'Документация', en: 'Documentation' },
+    description: {
+      bg: 'Води протоколите от заседанията и поддържа документацията на съвета.',
+      en: 'Keeps meeting minutes and maintains council documentation.',
+    },
     socials: { email: 'secretary@pgtk.bg' }
   },
   {
     id: 4,
-    name: 'PR Мениджър',
-    role: 'Комуникации',
-    description: 'Отговаря за социалните мрежи и комуникацията с учениците.',
-    badge: 'Креативен',
+    name: { bg: 'PR Мениджър', en: 'PR Manager' },
+    role: { bg: 'Комуникации', en: 'Communications' },
+    description: {
+      bg: 'Отговаря за социалните мрежи и комуникацията с учениците.',
+      en: 'Handles social media and communication with students.',
+    },
+    badge: { bg: 'Креативен', en: 'Creative' },
     socials: { instagram: '@pgtk_council', email: 'pr@pgtk.bg' }
   },
   {
     id: 5,
-    name: 'Отговорник събития',
-    role: 'Координация на събития',
-    description: 'Планира и координира всички училищни събития и инициативи.',
+    name: { bg: 'Отговорник събития', en: 'Events Lead' },
+    role: { bg: 'Координация на събития', en: 'Event coordination' },
+    description: {
+      bg: 'Планира и координира всички училищни събития и инициативи.',
+      en: 'Plans and coordinates all school events and initiatives.',
+    },
     socials: { email: 'events@pgtk.bg' }
   },
   {
     id: 6,
-    name: 'Финансов координатор',
-    role: 'Бюджет',
-    description: 'Управлява бюджета на съвета и финансирането на проектите.',
+    name: { bg: 'Финансов координатор', en: 'Finance Coordinator' },
+    role: { bg: 'Бюджет', en: 'Budget' },
+    description: {
+      bg: 'Управлява бюджета на съвета и финансирането на проектите.',
+      en: 'Manages the council budget and project funding.',
+    },
     socials: { email: 'finance@pgtk.bg' }
   },
 ]
 
 function MemberCard({ member, index }: { member: TeamMember; index: number }) {
   const [isHovered, setIsHovered] = useState(false)
+  const { language } = useLanguage()
+
+  const name = language === 'en' ? member.name.en : member.name.bg
+  const role = language === 'en' ? member.role.en : member.role.bg
+  const description = language === 'en' ? member.description.en : member.description.bg
+  const badge = member.badge ? (language === 'en' ? member.badge.en : member.badge.bg) : ''
 
   return (
     <motion.div
@@ -111,7 +136,7 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
           >
             <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-accent/20 to-accent-light/20 text-accent-dark dark:text-accent-light text-xs font-semibold border border-accent/30">
               <Star className="w-3 h-3" />
-              {member.badge}
+              {badge}
             </span>
           </motion.div>
         )}
@@ -149,13 +174,13 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
 
           {/* Info */}
           <h3 className="font-display font-bold text-xl text-gray-900 dark:text-white mb-1">
-            {member.name}
+            {name}
           </h3>
           <p className="text-primary dark:text-primary-light font-medium text-sm mb-3">
-            {member.role}
+            {role}
           </p>
           <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
-            {member.description}
+            {description}
           </p>
 
           {/* Social links */}

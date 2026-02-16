@@ -15,11 +15,11 @@ import { useAccessibilityMenu } from '@/lib/contexts/AccessibilityContext'
 
 const navItems = [
   { label: 'Начало', href: '/', key: 'home' },
-  { label: 'За нас', href: '#about', key: 'about' },
+  { label: 'За нас', href: '/about', key: 'about' },
   { label: 'Събития', href: '/events', key: 'events' },
-  { label: 'Новини', href: '#news', key: 'news' },
-  { label: 'Галерия', href: '#gallery', key: 'gallery' },
-  { label: 'Контакти', href: '#contact', key: 'contact' },
+  { label: 'Новини', href: '/news', key: 'news' },
+  { label: 'Галерия', href: '/gallery', key: 'gallery' },
+  { label: 'Контакти', href: '/contact', key: 'contact' },
 ]
 
 type Locale = 'bg' | 'en'
