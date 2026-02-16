@@ -13,7 +13,7 @@ export function createClient() {
             return { name, value }
           })
         },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: any }[]) {
           if (typeof document === 'undefined') return
           cookiesToSet.forEach(({ name, value, options }) => {
             let cookie = `${name}=${value}`
