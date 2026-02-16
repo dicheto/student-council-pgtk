@@ -84,28 +84,67 @@ export default function AboutPage() {
     <div ref={containerRef} className="min-h-screen bg-white dark:bg-slate-900">
       {/* Hero Header */}
       <section className="relative min-h-[70vh] flex items-center overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary-dark to-slate-900" />
-        
-        {/* Animated mesh */}
-        <motion.div
-          className="absolute inset-0 opacity-20"
+        {/* Vibrant animated background */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600"
           animate={{
             background: [
-              'radial-gradient(circle at 20% 50%, rgba(135, 206, 235, 0.4) 0%, transparent 50%)',
-              'radial-gradient(circle at 80% 50%, rgba(135, 206, 235, 0.4) 0%, transparent 50%)',
+              'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
+              'linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #4facfe 100%)',
+              'linear-gradient(135deg, #4facfe 0%, #00f2fe 50%, #667eea 100%)',
+              'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%)',
             ],
           }}
-          transition={{ duration: 8, repeat: Infinity, repeatType: 'reverse' }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+        />
+        
+        {/* Gradient fade to white/dark at bottom */}
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white dark:from-slate-900 to-transparent z-[1]" />
+        
+        {/* Animated floating orbs with glow */}
+        <motion.div
+          className="absolute top-20 left-10 w-72 h-72 rounded-full bg-cyan-400/30 blur-3xl"
+          animate={{
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        />
+        <motion.div
+          className="absolute bottom-20 right-10 w-96 h-96 rounded-full bg-pink-400/40 blur-3xl"
+          animate={{
+            x: [0, -80, 0],
+            y: [0, -60, 0],
+            scale: [1, 1.3, 1],
+          }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/2 w-80 h-80 rounded-full bg-yellow-300/30 blur-3xl"
+          animate={{
+            x: [-200, 200, -200],
+            y: [-100, 100, -100],
+            scale: [1, 1.4, 1],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
         />
 
-        {/* Logo backdrop */}
+        {/* Animated mesh grid */}
         <motion.div
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 opacity-5"
-          style={{ y: heroY }}
-        >
-          <AnimatedLogo size={600} transparent rotating animated={false} />
-        </motion.div>
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px),
+              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px',
+          }}
+          animate={{
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{ duration: 4, repeat: Infinity }}
+        />
 
         <motion.div 
           className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10"
@@ -117,28 +156,29 @@ export default function AboutPage() {
             transition={{ duration: 0.8 }}
             className="max-w-3xl"
           >
-            {/* Badge */}
+            {/* Badge with neon glow */}
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/20 backdrop-blur-md border-2 border-white/40 mb-6 shadow-lg shadow-cyan-500/50"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(34, 211, 238, 0.8)' }}
             >
-              <Sparkles className="w-4 h-4 text-accent" />
-              <span className="text-sm text-white/90">{t('about.badge', 'ПГТК')}</span>
+              <Sparkles className="w-4 h-4 text-yellow-300" />
+              <span className="text-sm text-white font-bold tracking-wider">{t('about.badge', 'ПГТК')}</span>
             </motion.div>
 
-            <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl text-white mb-6">
+            <h1 className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl text-white mb-6 drop-shadow-2xl">
               {t('about.title', 'За нас').split(' ')[0]}{' '}
-              <span className="bg-gradient-to-r from-primary-light to-white bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-cyan-300 via-pink-300 to-yellow-300 bg-clip-text text-transparent animate-pulse">
                 {t('about.title', 'За нас').split(' ')[1]}
               </span>
             </h1>
-            <p className="text-xl text-white/80 leading-relaxed mb-8">
+            <p className="text-xl text-white/95 leading-relaxed mb-8 drop-shadow-lg">
               {t('about.hero_description', 'Ученическият съвет ПГТК е организация на ученици за ученици. Ние сме гласът на всеки ученик и работим за подобряване на училищния живот.')}
             </p>
 
-            {/* Quick stats inline */}
+            {/* Quick stats inline with glow effects */}
             <div className="flex flex-wrap gap-6">
               {stats.slice(0, 3).map((stat, i) => (
                 <motion.div
@@ -146,31 +186,42 @@ export default function AboutPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 + i * 0.1 }}
-                  className="text-center"
+                  whileHover={{ scale: 1.1 }}
+                  className="text-center p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/30 shadow-xl hover:shadow-cyan-500/50 transition-all"
                 >
-                  <span className="block text-3xl font-bold text-white">
+                  <span className="block text-4xl font-bold text-white drop-shadow-lg">
                     {stat.value}{stat.suffix}
                   </span>
-                  <span className="text-white/60 text-sm">{stat.label}</span>
+                  <span className="text-white/80 text-sm font-medium">{stat.label}</span>
                 </motion.div>
               ))}
             </div>
           </motion.div>
         </motion.div>
 
-        {/* Scroll indicator */}
+        {/* Scroll indicator with glow */}
         <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
           animate={{ y: [0, 10, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          <ChevronRight className="w-6 h-6 text-white/50 rotate-90" />
+          <div className="relative">
+            <div className="absolute inset-0 blur-xl bg-white/50 scale-150" />
+            <ChevronRight className="relative w-6 h-6 text-white rotate-90" />
+          </div>
         </motion.div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 -mt-20 relative z-10">
-        <div className="container mx-auto">
+      {/* Stats Section with gradient background continuation */}
+      <section className="relative py-20 px-4 sm:px-6 lg:px-8 -mt-20 z-10">
+        {/* Subtle gradient background that continues from hero */}
+        <div className="absolute inset-0 bg-gradient-to-b from-purple-50/50 via-white to-white dark:from-slate-800/50 dark:via-slate-900 dark:to-slate-900" />
+        
+        {/* Floating color accents */}
+        <div className="absolute top-0 left-10 w-64 h-64 bg-purple-200/20 dark:bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute top-20 right-20 w-48 h-48 bg-pink-200/20 dark:bg-pink-500/10 rounded-full blur-3xl" />
+        
+        <div className="container mx-auto relative z-10">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {stats.map((stat, index) => {
               const Icon = stat.icon
@@ -181,10 +232,10 @@ export default function AboutPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="p-6 rounded-3xl bg-white dark:bg-slate-800 border border-gray-100 dark:border-slate-700 shadow-xl"
+                  className="p-6 rounded-3xl bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border border-purple-100 dark:border-slate-700 shadow-xl hover:shadow-purple-200/50 dark:hover:shadow-purple-500/20 transition-all"
                 >
                   <motion.div 
-                    className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-primary-light flex items-center justify-center mb-4"
+                    className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 via-pink-500 to-cyan-500 flex items-center justify-center mb-4 shadow-lg"
                     whileHover={{ rotate: 360 }}
                     transition={{ duration: 0.6 }}
                   >

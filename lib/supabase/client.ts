@@ -5,22 +5,25 @@ export function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
-      db: {
-        schema: 'public',
-      },
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        detectSessionInUrl: true,
-        flowType: 'pkce',
-        // Fix for AbortError in dev mode
-        storage: typeof window !== 'undefined' ? window.localStorage : undefined,
-        storageKey: 'supabase.auth.token',
-        debug: false,
-      },
-      global: {
-        headers: {
-          'x-client-info': 'supabase-js-web',
+      cookies: {
+        getAll() {
+          if (typeof document === 'undefined') return []
+          return document.cookie.split(';').map(cookie => {
+            const [name, value] = cookie.trim().split('=')
+            return { name, value }
+          })
+        },
+        setAll(cookiesToSet) {
+          if (typeof document === 'undefined') return
+          cookiesToSet.forEach(({ name, value, options }) => {
+            let cookie = `${name}=${value}`
+            if (options?.maxAge) cookie += `; max-age=${options.maxAge}`
+            if (options?.path) cookie += `; path=${options.path}`
+            if (options?.domain) cookie += `; domain=${options.domain}`
+            if (options?.sameSite) cookie += `; samesite=${options.sameSite}`
+            if (options?.secure) cookie += '; secure'
+            document.cookie = cookie
+          })
         },
       },
     }

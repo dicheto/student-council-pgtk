@@ -23,72 +23,40 @@ export default function LoginPage() {
     try {
       const supabase = createClient()
       
-      console.log('[Signup] Създаване на потребител:', email)
+      console.log('[Signup] Creating user:', email)
       
-      // Sign up the user
       const { data, error: signupError } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: {
-            full_name: email.split('@')[0],
-          },
+          emailRedirectTo: `${window.location.origin}/admin`,
         },
       })
 
       if (signupError) {
-        console.error('[Signup] Грешка:', signupError)
+        console.error('[Signup] Error:', signupError)
         setError(signupError.message)
         setIsLoading(false)
         return
       }
 
       if (data.user) {
-        console.log('[Signup] Потребител създаден:', data.user.email)
+        console.log('[Signup] ✅ User created:', data.user.email)
         
-        // Manually insert user into users table (as fallback if trigger doesn't work)
-        try {
-          const { data: usersCount } = await supabase
-            .from('users')
-            .select('id', { count: 'exact', head: true })
-          
-          const isFirstUser = (usersCount as any)?.length === 0
-          
-          await supabase.from('users').upsert({
-            id: data.user.id,
-            email: data.user.email,
-            full_name: email.split('@')[0],
-            role: isFirstUser ? 'admin' : 'user',
-          })
-          
-          await supabase.from('user_profiles').upsert({
-            id: data.user.id,
-            username: email.split('@')[0],
-            full_name: email.split('@')[0],
-            role: isFirstUser ? 'admin' : 'user',
-            language: 'bg',
-          })
-          
-          console.log('[Signup] User profile създаден manually')
-        } catch (profileError) {
-          console.error('[Signup] Profile creation error:', profileError)
-        }
-        
-        // Check if email confirmation is required
         if (data.session) {
-          // No email confirmation needed, redirect directly
+          // Auto-login successful
           setError('Успешна регистрация! Пренасочване...')
           setTimeout(() => {
             window.location.href = '/admin'
           }, 1000)
         } else {
           // Email confirmation required
-          setError('Регистрацията е успешна! Моля, проверете имейла си за потвърждение.')
+          setError('Регистрацията е успешна! Проверете имейла си за потвърждение.')
           setIsLoading(false)
         }
       }
     } catch (err: any) {
-      console.error('[Signup] Изключение:', err)
+      console.error('[Signup] Exception:', err)
       setError(err.message || 'Грешка при регистрация')
       setIsLoading(false)
     }
@@ -106,7 +74,7 @@ export default function LoginPage() {
     try {
       const supabase = createClient()
       
-      console.log('[Login] Опит за вход с:', email)
+      console.log('[Login] Attempting login with:', email)
       
       const { data, error: authError } = await supabase.auth.signInWithPassword({
         email,
@@ -114,49 +82,30 @@ export default function LoginPage() {
       })
 
       if (authError) {
-        console.error('[Login] Auth грешка:', authError)
-        console.log('[Login] Full error details:', JSON.stringify(authError, null, 2))
-        
-        // Show more detailed error message
-        let errorMessage = authError.message
-        
-        if (authError.message.includes('Invalid login credentials')) {
-          errorMessage = 'Грешен имейл или парола'
-        } else if (authError.message.includes('Email not confirmed')) {
-          errorMessage = 'Имейлът не е потвърден. Проверете входящата си поща.'
-        } else if (authError.message.includes('User not found')) {
-          errorMessage = 'Потребителят не съществува. Моля, регистрирайте се първо.'
-        }
-        
-        setError(errorMessage + ' (Код: ' + authError.status + ')')
+        console.error('[Login] Auth error:', authError)
+        setError(authError.message === 'Invalid login credentials' 
+          ? 'Грешен имейл или парола' 
+          : authError.message)
+        setIsLoading(false)
         return
       }
 
-      console.log('[Login] Auth response:', { 
-        hasUser: !!data.user, 
-        hasSession: !!data.session,
-        userEmail: data.user?.email,
-        sessionAccessToken: data.session?.access_token?.substring(0, 20) + '...'
-      })
-
-      if (data.user) {
-        if (!data.session) {
-          console.warn('[Login] Потребител без session - може би трябва email confirmation')
-          setError('Моля, потвърдете имейла си преди да влезете. Проверете входящата си поща.')
-          return
-        }
+      if (data.user && data.session) {
+        console.log('[Login] ✅ Login successful for:', data.user.email)
         
-        console.log('[Login] Успешен login за:', data.user.email)
+        // Redirect to admin
         const redirect = searchParams.get('redirect') || '/admin'
-        console.log('[Login] Пренасочване към:', redirect)
+        console.log('[Login] Redirecting to:', redirect)
         
-        // Force hard navigation instead of router.push
+        // Use window.location for hard reload to ensure session is propagated
         window.location.href = redirect
+      } else {
+        setError('Session не е създадена. Моля, опитайте отново.')
+        setIsLoading(false)
       }
     } catch (err: any) {
-      console.error('[Login] Изключение:', err)
+      console.error('[Login] Exception:', err)
       setError(err.message || 'Грешка при влизане')
-    } finally {
       setIsLoading(false)
     }
   }
