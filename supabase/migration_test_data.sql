@@ -109,7 +109,7 @@ VALUES
     '{"bg": "Покани бъдещите ученици и родители да разгледат училището, да се запознаят с преподавателите и да научат повече за учебните програми.", "en": "Invite prospective students and parents to tour the school, meet teachers and learn more about academic programs."}'::jsonb,
     (NOW() + INTERVAL '25 days')::timestamp,
     (NOW() + INTERVAL '25 days' + INTERVAL '4 hours')::timestamp,
-    'ПГТК ""',
+    'ПГТК',
     'https://maps.google.com',
     'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800',
     'published',

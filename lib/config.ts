@@ -1,6 +1,6 @@
 export const siteConfig = {
-  name: 'Ученически Съвет - ПГТК ""',
-  description: 'Официален уебсайт на Ученическия съвет на ПГТК ""',
+  name: 'Ученически Съвет - ПГТК',
+  description: 'Официален уебсайт на Ученическия съвет на ПГТК',
   url: 'https://studentcouncil.pgtk.bg',
   ogImage: 'https://studentcouncil.pgtk.bg/og-image.png',
   mainNav: [
@@ -53,6 +53,6 @@ export const siteConfig = {
   contact: {
     email: 'contact@pgtk.bg',
     phone: '+359 XXX XXX XXX',
-    address: 'ПГТК "", България',
+    address: 'ПГТК, България',
   },
 }

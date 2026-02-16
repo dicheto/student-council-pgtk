@@ -38,7 +38,7 @@ interface DesignSettings {
 const defaultDesign: DesignSettings = {
   heroTitle: 'Ученически Съвет',
   heroSubtitle: 'Вдъхновяваме промяна, изграждаме общност, създаваме бъдеще',
-  heroTagline: 'ПГТК ""',
+  heroTagline: 'ПГТК',
   showHeroStats: true,
   showHeroParticles: true,
   primaryColor: '#0047AB',
