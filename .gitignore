@@ -11,3 +11,4 @@
 .DS_Store
 Thumbs.db
 /.next/
+supabase/migration_calendar_events.sql
