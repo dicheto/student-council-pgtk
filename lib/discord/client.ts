@@ -38,28 +38,12 @@ export async function getDiscordClient() {
 
     isConnecting = true
 
-    // Създаване на нов клиент с пълни intents за пълно управление
-    // ВАЖНО: Трябва да активираш всички Privileged Gateway Intents в Discord Developer Portal:
-    // - Presence Intent
-    // - Server Members Intent  
-    // - Message Content Intent
+    // Използване на минимален набор от intents - достатъчни за webhook функционалност
+    // Това не изисква никакви privileged intents в Discord Developer Portal
     discordClient = new Client({
       intents: [
         GatewayIntentBits.Guilds,
-        GatewayIntentBits.GuildMembers,
-        GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.GuildMessageReactions,
-        GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildPresences,
         GatewayIntentBits.DirectMessages,
-        GatewayIntentBits.DirectMessageReactions,
-      ],
-      partials: [
-        Partials.Channel,
-        Partials.Message,
-        Partials.User,
-        Partials.GuildMember,
-        Partials.Reaction,
       ],
     })
 

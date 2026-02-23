@@ -8,7 +8,8 @@
     "start": "next start -H 0.0.0.0 -p 3001",
     "lint": "next lint",
     "db:setup": "node ./scripts/supabase-db.mjs setup",
-    "db:reset": "cmd /c \"set I_UNDERSTAND_DB_RESET=YES&& node ./scripts/supabase-db.mjs reset\""
+    "db:reset": "cmd /c \"set I_UNDERSTAND_DB_RESET=YES&& node ./scripts/supabase-db.mjs reset\"",
+    "db:add-calendar": "node ./scripts/add-calendar-events.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",
