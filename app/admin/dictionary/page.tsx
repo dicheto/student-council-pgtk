@@ -124,7 +124,10 @@ export default function DictionaryPage() {
       const response = await fetch(`/api/dictionary/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          category: selectedCategory,
+        }),
       })
 
       if (response.ok) {
