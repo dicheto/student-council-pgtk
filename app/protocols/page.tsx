@@ -87,8 +87,13 @@ export default function ProtocolsPage() {
   }
 
   const handleDownloadPdf = (protocol: Protocol) => {
-    // Open PDF in new tab, which will trigger download
-    window.open(protocol.pdfUrl, '_blank')
+    // Create a temporary anchor element to trigger download
+    const link = document.createElement('a')
+    link.href = protocol.pdfUrl
+    link.download = `${protocol.name}.pdf`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   if (!mounted) {
