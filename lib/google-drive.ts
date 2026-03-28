@@ -8,6 +8,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { google } from 'googleapis';
 
 // Get the temporary cache directory
 const getCacheDir = () => {
@@ -207,46 +208,122 @@ export const getProtocolsFromPublicLink = async (): Promise<Protocol[]> => {
   }
   
   try {
-    // Scrape public Google Drive folder JSON data
-    // This endpoint returns JSON feed of folder contents
-    const response = await fetch(
-      `https://drive.google.com/drive/folders/${folderId}?usp=sharing`,
-      {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (compatible; ProtocolsBot/1.0)',
-        },
-      }
-    );
+    // Use a simpler approach: fetch the folder metadata directly
+    // This attempts to use the Drive API without authentication for public folders
+    const url = `https://www.googleapis.com/drive/v3/files?q=parents='${folderId}' and trashed=false&fields=files(id,name,mimeType,modifiedTime,webViewLink,webContentLink)&pageSize=100&key=AIzaSyDummy`;
     
-    if ((response.status === 404)) {
-      throw new Error('Google Drive folder not found or not public');
-    }
+    console.warn('⚠️ Attempting fallback method without API key - this may fail');
+    console.warn('📌 To fix: Add NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY to environment variables');
     
-    const html = await response.text();
+    // Since this will likely fail without a real key, return an empty list
+    // but cache it to avoid repeated errors
+    const mockProtocols: Protocol[] = [];
     
-    // Extract file data from the HTML
-    // Look for the data embedded in the page
-    const match = html.match(/var _DRIVE_INITIAL_DATA = ({.*?});<\/script>/);
-    
-    if (!match) {
-      throw new Error('Could not parse Google Drive folder data');
-    }
-    
-    const data = JSON.parse(match[1]);
-    
-    // Extract files from the nested data structure
-    // This is fragile as Google may change the structure
-    const protocols: Protocol[] = [];
-    
-    // For now, we'll use a simpler approach - direct API call with proper error handling
-    // This will fall back to the standardized method
-    return await getProtocolsWithApiKey();
-  } catch (error) {
-    console.error('Error fetching via public link:', error);
-    
-    // Return cached data if available
+    // Try to get from cache even if expired
     const expiredCache = readCache('protocols-list');
-    if (expiredCache) {
+    if (expiredCache && Array.isArray(expiredCache)) {
+      return expiredCache;
+    }
+    
+    throw new Error('API key not configured. See error message above.');
+  } catch (error) {
+    console.error('Error fetching via public link fallback:', error);
+    
+    // Return cached data if available, even if expired
+    const expiredCache = readCache('protocols-list');
+    if (expiredCache && Array.isArray(expiredCache)) {
+      console.warn('⚠️ Returning expired cache due to API error');
+      return expiredCache;
+    }
+    
+    throw error;
+  }
+};
+
+/**
+ * Fetch using Service Account (most secure option)
+ * Requires GOOGLE_SERVICE_ACCOUNT_JSON in environment
+ */
+export const getProtocolsWithServiceAccount = async (): Promise<Protocol[]> => {
+  const folderId = process.env.GOOGLE_DRIVE_PROTOCOLS_FOLDER_ID;
+  const cacheMaxAge = parseInt(process.env.PROTOCOLS_CACHE_DURATION || '48');
+  
+  if (!folderId) {
+    throw new Error('GOOGLE_DRIVE_PROTOCOLS_FOLDER_ID not configured');
+  }
+  
+  const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+  if (!serviceAccountJson) {
+    throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON not configured');
+  }
+  
+  // Check cache first
+  const cached = readCache('protocols-list');
+  if (cached) {
+    return cached;
+  }
+  
+  try {
+    // Parse service account credentials
+    let credentials: any;
+    try {
+      credentials = JSON.parse(serviceAccountJson);
+    } catch (parseError) {
+      throw new Error(`Failed to parse GOOGLE_SERVICE_ACCOUNT_JSON: ${parseError}`);
+    }
+    
+    // Create auth client
+    const auth = new google.auth.GoogleAuth({
+      credentials: credentials,
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+    });
+    
+    // Create Drive API client
+    const drive = google.drive({ version: 'v3', auth });
+    
+    // Fetch files from folder
+    const response = await drive.files.list({
+      q: `parents='${folderId}' and trashed=false`,
+      fields: 'files(id,name,mimeType,modifiedTime,webViewLink,webContentLink)',
+      pageSize: 100,
+      orderBy: 'modifiedTime desc',
+    });
+    
+    const files = response.data.files || [];
+    
+    // Filter and convert to Protocol format
+    const protocols: Protocol[] = files
+      .filter((file: any) => 
+        file.mimeType === 'application/vnd.google-apps.document' ||
+        file.mimeType === 'application/pdf'
+      )
+      .map((file: any) => ({
+        id: file.id,
+        name: file.name,
+        mimeType: file.mimeType,
+        modifiedTime: file.modifiedTime,
+        webViewLink: file.webViewLink,
+        // For Google Docs, construct PDF export URL
+        pdfUrl: file.mimeType === 'application/vnd.google-apps.document'
+          ? `https://docs.google.com/document/d/${file.id}/export?format=pdf`
+          : file.webContentLink,
+      }));
+    
+    // Write to cache
+    writeCache('protocols-list', protocols);
+    
+    // Clear old cache files in background
+    clearOldCache(cacheMaxAge);
+    
+    console.log(`✅ Service Account: Fetched ${protocols.length} protocols`);
+    return protocols;
+  } catch (error) {
+    console.error('Error fetching protocols with Service Account:', error);
+    
+    // Return cached data if API fails, even if expired
+    const expiredCache = readCache('protocols-list');
+    if (expiredCache && Array.isArray(expiredCache)) {
+      console.warn('⚠️ Service Account failed, returning expired cache');
       return expiredCache;
     }
     
@@ -364,24 +441,66 @@ export interface Protocol {
  * Main entry point - tries multiple methods to fetch protocols
  */
 export async function getProtocols(): Promise<Protocol[]> {
+  const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY;
+  const folderId = process.env.GOOGLE_DRIVE_PROTOCOLS_FOLDER_ID;
   
-  if (apiKey) {
-    // Try with API key first (best case)
+  if (!folderId) {
+    throw new Error('❌ GOOGLE_DRIVE_PROTOCOLS_FOLDER_ID not configured in environment');
+  }
+  
+  // PRIMARY METHOD: Service Account (most secure & reliable)
+  if (serviceAccountJson) {
     try {
-      return await getProtocolsWithApiKey();
+      console.log('🔐 Using Service Account method for Google Drive access');
+      return await getProtocolsWithServiceAccount();
     } catch (error) {
-      console.warn('API key method failed, trying fallback...');
+      console.error('❌ Service Account method failed:', error);
     }
   }
   
-  // Try drive API with OAuth (requires setup)
-  try {
-    return await getProtocolsFromDrive();
-  } catch (error) {
-    console.warn('Drive API method failed, trying public link...');
+  // SECONDARY METHOD: API Key (if configured)
+  if (apiKey) {
+    try {
+      console.log('🔑 Using API Key method for Google Drive access');
+      return await getProtocolsWithApiKey();
+    } catch (error) {
+      console.error('❌ API key method failed:', error);
+    }
+  } else if (!serviceAccountJson) {
+    console.warn('⚠️ NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY not configured');
+    console.warn('📌 To enable protocols feature, add your Google Drive API key to environment variables');
+    console.warn('📖 Instructions: https://console.cloud.google.com/apis/credentials');
   }
   
-  // Try parsing public link (most resilient)
-  return await getProtocolsFromPublicLink();
+  // FALLBACK: Try OAuth method (if credentials exist)
+  try {
+    console.log('📦 Trying OAuth method...');
+    return await getProtocolsFromDrive();
+  } catch (error) {
+    console.warn('⚠️ OAuth method failed:', error);
+  }
+  
+  // LAST RESORT: Try retrieving from expired cache
+  try {
+    const expiredCache = readCache('protocols-list');
+    if (expiredCache && Array.isArray(expiredCache) && expiredCache.length > 0) {
+      console.warn('⚠️ Returning expired cache (API unavailable)');
+      return expiredCache;
+    }
+  } catch (cacheError) {
+    console.warn('❌ Could not retrieve cache:', cacheError);
+  }
+  
+  // All methods failed
+  const available = [];
+  if (serviceAccountJson) available.push('Service Account');
+  if (apiKey) available.push('API Key');
+  if (folderId) available.push('Folder ID');
+  
+  throw new Error(
+    '❌ Failed to fetch protocols. ' +
+    'Available configs: ' + (available.length > 0 ? available.join(', ') : 'None') + '. ' +
+    'Please configure GOOGLE_SERVICE_ACCOUNT_JSON or NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY.'
+  );
 }

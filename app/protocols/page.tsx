@@ -43,6 +43,22 @@ export default function ProtocolsPage() {
         }
 
         const data = await response.json()
+        
+        // Check for API key configuration error
+        if (!response.ok) {
+          const errorMsg = data.message || data.error || 'Възникна грешка';
+          if (errorMsg.includes('API key') || errorMsg.includes('GOOGLE_DRIVE_PROTOCOLS_FOLDER_ID')) {
+            setError(
+              '⚠️ Системата не е конфигурирана правилно. ' +
+              'Добави NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY в Vercel Environment Variables. ' +
+              'Виж PROTOCOLS_TROUBLESHOOT.md за помощ.'
+            );
+          } else {
+            setError(data.message || errorMsg);
+          }
+          return;
+        }
+        
         setProtocols(data.data || [])
       } catch (error) {
         console.error('Error fetching protocols:', error)

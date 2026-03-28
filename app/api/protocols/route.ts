@@ -40,11 +40,23 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Error in /api/protocols:', error);
     
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    
+    // Provide helpful error messages
+    let helpMessage = '';
+    if (errorMessage.includes('API key') || errorMessage.includes('NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY')) {
+      helpMessage = 'Please add NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY to your Vercel environment variables. Get it from: https://console.cloud.google.com/apis/credentials';
+    } else if (errorMessage.includes('GOOGLE_DRIVE_PROTOCOLS_FOLDER_ID')) {
+      helpMessage = 'Please ensure GOOGLE_DRIVE_PROTOCOLS_FOLDER_ID is set in environment variables.';
+    }
+    
     return NextResponse.json(
       {
         success: false,
         error: 'Failed to fetch protocols',
-        message: error instanceof Error ? error.message : 'Unknown error',
+        message: errorMessage,
+        help: helpMessage,
+        timestamp: new Date().toISOString(),
       },
       { status: 500 }
     );
