@@ -103,7 +103,7 @@ export default function ProtocolsPage() {
   const isDark = resolvedTheme === 'dark'
 
   return (
-    <div className={`min-h-screen pt-24 pb-16 transition-colors duration-300 ${
+    <div className={`min-h-screen pt-28 pb-16 transition-colors duration-300 ${
       isDark 
         ? 'bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900' 
         : 'bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100'

@@ -160,10 +160,8 @@ export const getProtocolsFromDrive = async (): Promise<Protocol[]> => {
         mimeType: file.mimeType,
         modifiedTime: file.modifiedTime,
         webViewLink: file.webViewLink,
-        // For Google Docs, construct PDF export URL
-        pdfUrl: file.mimeType === 'application/vnd.google-apps.document'
-          ? `https://docs.google.com/document/d/${file.id}/export?format=pdf`
-          : file.webContentLink,
+        // Use our proxy endpoint for inline preview instead of direct Google Drive URLs
+        pdfUrl: `/api/protocols/${file.id}/pdf`,
       }))
       .sort((a: Protocol, b: Protocol) => 
         new Date(b.modifiedTime).getTime() - new Date(a.modifiedTime).getTime()
@@ -304,9 +302,7 @@ export const getProtocolsWithServiceAccount = async (): Promise<Protocol[]> => {
         modifiedTime: file.modifiedTime,
         webViewLink: file.webViewLink,
         // For Google Docs, construct PDF export URL
-        pdfUrl: file.mimeType === 'application/vnd.google-apps.document'
-          ? `https://docs.google.com/document/d/${file.id}/export?format=pdf`
-          : file.webContentLink,
+        pdfUrl: `/api/protocols/${file.id}/pdf`,
       }));
     
     // Write to cache
@@ -376,10 +372,8 @@ export const getProtocolsWithApiKey = async (): Promise<Protocol[]> => {
         mimeType: file.mimeType,
         modifiedTime: file.modifiedTime,
         webViewLink: file.webViewLink,
-        // For Google Docs, construct PDF export URL
-        pdfUrl: file.mimeType === 'application/vnd.google-apps.document'
-          ? `https://docs.google.com/document/d/${file.id}/export?format=pdf`
-          : file.webContentLink,
+        // Use our proxy endpoint for inline preview instead of direct Google Drive URLs
+        pdfUrl: `/api/protocols/${file.id}/pdf`,
       }))
       .sort((a: Protocol, b: Protocol) => 
         new Date(b.modifiedTime).getTime() - new Date(a.modifiedTime).getTime()
