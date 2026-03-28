@@ -19,6 +19,7 @@ const navItems = [
   { label: 'Събития', href: '/events', key: 'events' },
   { label: 'Новини', href: '/news', key: 'news' },
   { label: 'Галерия', href: '/gallery', key: 'gallery' },
+  { label: 'Протоколи', href: '/protocols', key: 'protocols' },
   { label: 'Контакти', href: '/contact', key: 'contact' },
 ]
 
@@ -31,6 +32,7 @@ const navLabels: Record<Locale, Record<string, string>> = {
     events: 'Събития',
     news: 'Новини',
     gallery: 'Галерия',
+    protocols: 'Протоколи',
     contact: 'Контакти',
   },
   en: {
@@ -39,6 +41,7 @@ const navLabels: Record<Locale, Record<string, string>> = {
     events: 'Events',
     news: 'News',
     gallery: 'Gallery',
+    protocols: 'Protocols',
     contact: 'Contact',
   },
 }
