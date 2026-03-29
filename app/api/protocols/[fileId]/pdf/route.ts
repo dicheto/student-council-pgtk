@@ -46,23 +46,19 @@ export async function GET(
       );
     }
     
-    // Get the PDF URL - prefer googleDriveUrl, fallback to constructing from file ID
-    let pdfUrl = protocol.googleDriveUrl;
+    // Get the PDF URL - use direct Google Drive URLs that work without auth
+    let pdfUrl: string;
     
-    if (!pdfUrl) {
-      // Fallback: construct URL based on mimeType
-      if (protocol.mimeType === 'application/vnd.google-apps.document') {
-        pdfUrl = `https://docs.google.com/document/d/${fileId}/export?format=pdf`;
-      } else if (protocol.mimeType === 'application/pdf') {
-        // For PDF files, use public download URL
-        pdfUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
-      }
-    }
-    
-    if (!pdfUrl) {
-      console.error(`No PDF URL available for protocol ${fileId}`);
+    if (protocol.mimeType === 'application/vnd.google-apps.document') {
+      // For Google Docs, use the export URL
+      pdfUrl = `https://docs.google.com/document/d/${fileId}/export?format=pdf`;
+    } else if (protocol.mimeType === 'application/pdf') {
+      // For PDF files, use the direct download URL
+      pdfUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    } else {
+      console.error(`Unsupported mimeType: ${protocol.mimeType}`);
       return NextResponse.json(
-        { error: 'PDF URL not available for this protocol' },
+        { error: 'Unsupported file type for PDF conversion' },
         { status: 400 }
       );
     }

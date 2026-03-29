@@ -87,13 +87,26 @@ export default function ProtocolsPage() {
   }
 
   const handleDownloadPdf = (protocol: Protocol) => {
+    // Use direct Google Drive download URL
+    let downloadUrl: string;
+
+    if (protocol.mimeType === 'application/vnd.google-apps.document') {
+      downloadUrl = `https://docs.google.com/document/d/${protocol.id}/export?format=pdf`;
+    } else if (protocol.mimeType === 'application/pdf') {
+      downloadUrl = `https://drive.google.com/uc?export=download&id=${protocol.id}`;
+    } else {
+      console.error('Unsupported file type for download');
+      return;
+    }
+
     // Create a temporary anchor element to trigger download
-    const link = document.createElement('a')
-    link.href = protocol.pdfUrl
-    link.download = `${protocol.name}.pdf`
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = `${protocol.name}.pdf`;
+    link.target = '_blank'; // Open in new tab as fallback
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   if (!mounted) {
@@ -381,10 +394,14 @@ export default function ProtocolsPage() {
               isDark ? 'bg-slate-900' : 'bg-slate-50'
             }`}>
               <iframe
-                src={`${selectedProtocol.pdfUrl}#toolbar=1&navpanes=0&scrollbar=1`}
+                src={selectedProtocol.mimeType === 'application/vnd.google-apps.document'
+                  ? `https://docs.google.com/document/d/${selectedProtocol.id}/pub?embedded=true`
+                  : `https://drive.google.com/file/d/${selectedProtocol.id}/preview`
+                }
                 className="w-full"
                 style={{ height: 'calc(90vh - 140px)' }}
                 title={`Preview of ${selectedProtocol.name}`}
+                allowFullScreen
               />
             </div>
 
