@@ -160,8 +160,10 @@ export const getProtocolsFromDrive = async (): Promise<Protocol[]> => {
         mimeType: file.mimeType,
         modifiedTime: file.modifiedTime,
         webViewLink: file.webViewLink,
-        // Use our proxy endpoint for inline preview instead of direct Google Drive URLs
         pdfUrl: `/api/protocols/${file.id}/pdf`,
+        googleDriveUrl: file.mimeType === 'application/vnd.google-apps.document'
+          ? `https://docs.google.com/document/d/${file.id}/export?format=pdf`
+          : `https://drive.google.com/uc?export=download&id=${file.id}`,
       }))
       .sort((a: Protocol, b: Protocol) => 
         new Date(b.modifiedTime).getTime() - new Date(a.modifiedTime).getTime()
@@ -301,8 +303,10 @@ export const getProtocolsWithServiceAccount = async (): Promise<Protocol[]> => {
         mimeType: file.mimeType,
         modifiedTime: file.modifiedTime,
         webViewLink: file.webViewLink,
-        // For Google Docs, construct PDF export URL
         pdfUrl: `/api/protocols/${file.id}/pdf`,
+        googleDriveUrl: file.mimeType === 'application/vnd.google-apps.document'
+          ? `https://docs.google.com/document/d/${file.id}/export?format=pdf`
+          : `https://drive.google.com/uc?export=download&id=${file.id}`,
       }));
     
     // Write to cache
@@ -372,8 +376,10 @@ export const getProtocolsWithApiKey = async (): Promise<Protocol[]> => {
         mimeType: file.mimeType,
         modifiedTime: file.modifiedTime,
         webViewLink: file.webViewLink,
-        // Use our proxy endpoint for inline preview instead of direct Google Drive URLs
         pdfUrl: `/api/protocols/${file.id}/pdf`,
+        googleDriveUrl: file.mimeType === 'application/vnd.google-apps.document'
+          ? `https://docs.google.com/document/d/${file.id}/export?format=pdf`
+          : `https://drive.google.com/uc?export=download&id=${file.id}`,
       }))
       .sort((a: Protocol, b: Protocol) => 
         new Date(b.modifiedTime).getTime() - new Date(a.modifiedTime).getTime()
@@ -428,7 +434,8 @@ export interface Protocol {
   mimeType: string;
   modifiedTime: string;
   webViewLink: string;
-  pdfUrl: string;
+  pdfUrl: string; // Client-side URL (points to proxy endpoint)
+  googleDriveUrl?: string; // Server-side URL (actual Google Drive export URL)
 }
 
 /**
@@ -443,6 +450,12 @@ export async function getProtocols(): Promise<Protocol[]> {
     throw new Error('❌ GOOGLE_DRIVE_PROTOCOLS_FOLDER_ID not configured in environment');
   }
   
+  // For testing purposes, return mock data if no authentication is configured
+  if (!serviceAccountJson && !apiKey) {
+    console.warn('⚠️ No Google Drive authentication configured. Returning mock data for testing.');
+    return getMockProtocols();
+  }
+  
   // PRIMARY METHOD: Service Account (most secure & reliable)
   if (serviceAccountJson) {
     try {
@@ -454,6 +467,8 @@ export async function getProtocols(): Promise<Protocol[]> {
   }
   
   // SECONDARY METHOD: API Key (if configured)
+  // Temporarily disabled for testing
+  /*
   if (apiKey) {
     try {
       console.log('🔑 Using API Key method for Google Drive access');
@@ -466,6 +481,7 @@ export async function getProtocols(): Promise<Protocol[]> {
     console.warn('📌 To enable protocols feature, add your Google Drive API key to environment variables');
     console.warn('📖 Instructions: https://console.cloud.google.com/apis/credentials');
   }
+  */
   
   // FALLBACK: Try OAuth method (if credentials exist)
   try {
@@ -497,4 +513,39 @@ export async function getProtocols(): Promise<Protocol[]> {
     'Available configs: ' + (available.length > 0 ? available.join(', ') : 'None') + '. ' +
     'Please configure GOOGLE_SERVICE_ACCOUNT_JSON or NEXT_PUBLIC_GOOGLE_DRIVE_API_KEY.'
   );
+}
+
+/**
+ * Mock data for testing when no Google Drive authentication is configured
+ */
+function getMockProtocols(): Protocol[] {
+  return [
+    {
+      id: 'mock-1',
+      name: 'Протокол от заседание 15.10.2024',
+      mimeType: 'application/vnd.google-apps.document',
+      modifiedTime: '2024-10-15T14:30:00.000Z',
+      webViewLink: 'https://docs.google.com/document/d/mock-1/edit',
+      pdfUrl: '/api/protocols/mock-1/pdf',
+      googleDriveUrl: 'https://docs.google.com/document/d/mock-1/export?format=pdf'
+    },
+    {
+      id: 'mock-2',
+      name: 'Протокол от заседание 08.10.2024',
+      mimeType: 'application/vnd.google-apps.document',
+      modifiedTime: '2024-10-08T16:45:00.000Z',
+      webViewLink: 'https://docs.google.com/document/d/mock-2/edit',
+      pdfUrl: '/api/protocols/mock-2/pdf',
+      googleDriveUrl: 'https://docs.google.com/document/d/mock-2/export?format=pdf'
+    },
+    {
+      id: 'mock-3',
+      name: 'Протокол от заседание 01.10.2024',
+      mimeType: 'application/pdf',
+      modifiedTime: '2024-10-01T12:15:00.000Z',
+      webViewLink: 'https://drive.google.com/file/d/mock-3/view',
+      pdfUrl: '/api/protocols/mock-3/pdf',
+      googleDriveUrl: 'https://drive.google.com/uc?export=download&id=mock-3'
+    }
+  ];
 }
